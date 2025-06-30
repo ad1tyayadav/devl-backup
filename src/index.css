@@ -1,0 +1,406 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. */
+
+@layer base {
+  :root {
+    --background: 10 10% 4%;
+    --foreground: 0 0% 95%;
+
+    --card: 0 0% 6%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 0 0% 6%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 195 100% 50%;
+    --primary-foreground: 0 0% 0%;
+
+    --secondary: 240 100% 50%;
+    --secondary-foreground: 0 0% 95%;
+
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
+
+    --accent: 271 91% 65%;
+    --accent-foreground: 0 0% 95%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 0 0% 20%;
+    --input: 0 0% 15%;
+    --ring: 195 100% 50%;
+
+    --radius: 0.5rem;
+  }
+}
+
+@layer utilities {
+  @keyframes slidebeam {
+    0% {
+      transform: translateX(-50%);
+    }
+
+    100% {
+      transform: translateX(50%);
+    }
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-dark-space text-foreground font-sans overflow-x-hidden;
+    background: radial-gradient(ellipse at center, #1a1a2e 0%, #0a0a0f 100%);
+    font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0a0a0f;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #00f5ff, #8b5cf6);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #00f5ff, #ff0080);
+  }
+
+  /* Seamless section transitions */
+  section {
+    @apply relative;
+  }
+
+  section:not(:first-child) {
+    @apply -mt-1;
+  }
+}
+
+@layer components {
+  .glass-morphism {
+    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-xl;
+  }
+
+  .neon-border {
+    @apply border border-cyber-blue/50 shadow-[0_0_20px_rgba(0, 245, 255, 0.3)];
+  }
+
+  .glow-text {
+    text-shadow: 0 0 10px rgba(0, 245, 255, 0.5);
+  }
+
+  .typewriter {
+    @apply font-mono;
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: 0.15em;
+    animation: typewriter 3s steps(40) 1s 1 normal both, blink 1s step-end infinite;
+  }
+
+  .magnetic-cursor {
+    cursor: none;
+  }
+
+  .floating-card {
+    @apply glass-morphism p-6 transform transition-all duration-300 hover:scale-105 hover:rotate-1;
+  }
+
+  .cyber-button {
+    @apply relative px-8 py-4 bg-gradient-to-r from-cyber-blue to-cyber-purple text-white font-semibold rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl;
+  }
+
+  .cyber-button::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-cyber-purple to-cyber-pink opacity-0 rounded-lg transition-opacity duration-300;
+  }
+
+  .cyber-button:hover::before {
+    opacity: 1;
+  }
+
+  .cyber-button span {
+    @apply relative z-10;
+  }
+
+  .animated-border {
+    position: relative;
+    background: linear-gradient(135deg, rgba(0, 245, 255, 0.1), rgba(139, 92, 246, 0.1), rgba(255, 0, 128, 0.1));
+    background-size: 300% 300%;
+    animation: border-flow 3s ease-in-out infinite;
+  }
+
+  .animated-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 2px;
+    background: linear-gradient(135deg, #00f5ff, #8b5cf6, #ff0080, #00f5ff);
+    background-size: 300% 300%;
+    border-radius: inherit;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: xor;
+    animation: border-flow 3s ease-in-out infinite;
+  }
+
+  /* Enhanced Calendar Styles */
+  .enhanced-calendar-container {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .enhanced-calendar {
+    position: relative;
+    z-index: 2;
+    width: fit-content;
+    margin: 0 auto;
+  }
+
+  .enhanced-calendar .rdp-day {
+    @apply transition-all duration-300 hover:scale-110 font-medium;
+    border-radius: 12px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .enhanced-calendar .rdp-day::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0, 245, 255, 0.1), rgba(139, 92, 246, 0.1));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 12px;
+  }
+
+  .enhanced-calendar .rdp-day:hover {
+    color: white;
+    background: rgba(0, 245, 255, 0.15);
+    border-color: rgba(0, 245, 255, 0.4);
+    box-shadow:
+      0 0 20px rgba(0, 245, 255, 0.4),
+      0 0 40px rgba(139, 92, 246, 0.2),
+      inset 0 0 20px rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px) scale(1.1);
+  }
+
+  .enhanced-calendar .rdp-day:hover::before {
+    opacity: 1;
+  }
+
+  .enhanced-calendar .rdp-day_selected {
+    @apply text-white font-bold;
+    background: linear-gradient(135deg, #10b981, #14b8a6) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    box-shadow:
+      0 0 30px rgba(16, 185, 129, 0.8),
+      0 0 50px rgba(20, 184, 166, 0.6),
+      inset 0 0 20px rgba(255, 255, 255, 0.2) !important;
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .enhanced-calendar .rdp-day_today {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7)) !important;
+    color: #0a0a0f !important;
+    font-weight: bold !important;
+    border: 2px solid #00f5ff !important;
+    box-shadow:
+      0 0 25px rgba(0, 245, 255, 0.9),
+      0 0 40px rgba(139, 92, 246, 0.7),
+      0 0 60px rgba(255, 255, 255, 0.5),
+      inset 0 0 20px rgba(0, 245, 255, 0.3) !important;
+    animation: today-pulse 3s ease-in-out infinite !important;
+    z-index: 10 !important;
+    position: relative !important;
+  }
+
+  .enhanced-calendar .rdp-caption_label {
+    @apply text-white font-bold text-2xl;
+    text-shadow: 0 0 15px rgba(0, 245, 255, 0.6);
+    background: linear-gradient(135deg, #00f5ff, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .enhanced-calendar .rdp-head_cell {
+    @apply text-cyan-300 font-semibold text-sm;
+    text-shadow: 0 0 8px rgba(0, 245, 255, 0.4);
+    padding: 8px;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+
+  .enhanced-calendar .rdp-nav_button {
+    @apply transition-all duration-300 rounded-xl;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(0, 245, 255, 0.3);
+    color: #00f5ff;
+    backdrop-filter: blur(10px);
+  }
+
+  .enhanced-calendar .rdp-nav_button:hover {
+    background: linear-gradient(135deg, rgba(0, 245, 255, 0.2), rgba(139, 92, 246, 0.2));
+    border-color: rgba(0, 245, 255, 0.6);
+    color: white;
+    box-shadow: 0 0 20px rgba(0, 245, 255, 0.5);
+    transform: scale(1.1);
+  }
+
+  .enhanced-calendar .rdp-table {
+    margin: 0 auto;
+    border-spacing: 4px;
+  }
+
+  .enhanced-calendar .rdp-month {
+    padding: 0;
+  }
+
+  .enhanced-calendar .rdp-caption {
+    padding: 16px 0 24px 0;
+  }
+
+  @keyframes pulse-glow {
+
+    0%,
+    100% {
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.8), 0 0 50px rgba(20, 184, 166, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+
+    50% {
+      box-shadow: 0 0 40px rgba(16, 185, 129, 1), 0 0 70px rgba(20, 184, 166, 0.8), 0 0 90px rgba(5, 150, 105, 0.4), inset 0 0 30px rgba(255, 255, 255, 0.3);
+    }
+  }
+
+  @keyframes today-pulse {
+
+    0%,
+    100% {
+      box-shadow:
+        0 0 25px rgba(255, 0, 128, 0.9),
+        0 0 40px rgba(139, 92, 246, 0.7),
+        0 0 60px rgba(0, 245, 255, 0.5),
+        inset 0 0 20px rgba(255, 255, 255, 0.3);
+      transform: scale(1);
+    }
+
+    50% {
+      box-shadow:
+        0 0 35px rgba(255, 0, 128, 1),
+        0 0 60px rgba(139, 92, 246, 0.9),
+        0 0 80px rgba(0, 245, 255, 0.7),
+        0 0 100px rgba(255, 0, 128, 0.4),
+        inset 0 0 30px rgba(255, 255, 255, 0.4);
+      transform: scale(1.05);
+    }
+  }
+
+  @keyframes gradient-shift {
+    0% {
+      background-position: 0% 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  /* Seamless section blending */
+  .section-blend {
+    @apply relative;
+  }
+
+  .section-blend::before {
+    content: '';
+    @apply absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-dark-space/80 to-transparent -mt-20 z-10;
+  }
+
+  /* Shine effect for space pod cards */
+  .shine-effect {
+    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+    transform: translateX(-100%);
+    animation: shine 3s ease-in-out infinite;
+  }
+
+  @keyframes shine {
+    0% {
+      transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    }
+
+    100% {
+      transform: translateX(400%) translateY(400%) rotate(45deg);
+    }
+  }
+}
+
+/* Particle background */
+.particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: rgba(0, 245, 255, 0.8);
+  border-radius: 50%;
+  animation: float 6s ease-in-out infinite;
+}
+
+.particle:nth-child(odd) {
+  background: rgba(139, 92, 246, 0.8);
+  animation-delay: -2s;
+}
+
+.particle:nth-child(3n) {
+  background: rgba(255, 0, 128, 0.8);
+  animation-delay: -4s;
+}
