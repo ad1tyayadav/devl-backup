@@ -1,7 +1,5 @@
-
 import React, { useRef, useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { ProjectCard } from './ProjectCard';
 
 interface Project {
@@ -34,12 +32,13 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const controls = useAnimation();
   const animationRef = useRef<{ currentX: number; isPaused: boolean }>({
-    currentX: 200,
+    currentX: 0,
     isPaused: false
   });
   const [isManualScrolling, setIsManualScrolling] = React.useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  // Create seamless loop by duplicating projects multiple times
+  // Create seamless loop by duplicating projects 3 times
   const duplicatedProjects = [...projects, ...projects, ...projects];
 
   useEffect(() => {
@@ -54,24 +53,20 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
       const startX = animationRef.current.currentX;
       const endX = startX - singleSetWidth;
 
-      const distance = Math.abs(startX - endX);
-      const duration = distance / singleSetWidth * 30;
-
       controls.start({
         x: endX,
         transition: {
-          duration,
+          duration: 30, // Fixed duration for consistent speed
           ease: "linear"
         }
       }).then(() => {
         if (!animationRef.current.isPaused && !isManualScrolling) {
-          animationRef.current.currentX = startX;
-          controls.set({ x: startX });
-          setTimeout(() => {
-            if (!animationRef.current.isPaused && !isManualScrolling) {
-              startAnimation();
-            }
-          }, 0);
+          // Reset position to equivalent content
+          const resetPosition = animationRef.current.currentX + singleSetWidth;
+          animationRef.current.currentX = resetPosition - singleSetWidth;
+          
+          controls.set({ x: resetPosition - singleSetWidth });
+          startAnimation();
         }
       });
     };
@@ -102,7 +97,7 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
 
   const scrollLeft = () => {
     setIsManualScrolling(true);
-    const newX = Math.min(animationRef.current.currentX + 450, 200);
+    const newX = animationRef.current.currentX + 450;
     animationRef.current.currentX = newX;
     controls.start({
       x: newX,
@@ -118,7 +113,7 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
     const gap = 32;
     const totalCardWidth = cardWidth + gap;
     const singleSetWidth = projects.length * totalCardWidth;
-    const minX = -(singleSetWidth * 2);
+    const minX = -(singleSetWidth * 2) + totalCardWidth;
     const newX = Math.max(animationRef.current.currentX - 450, minX);
     animationRef.current.currentX = newX;
     controls.start({
@@ -130,34 +125,17 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
   };
 
   return (
-    <div className="relative px-16 py-16">
-      {/* Navigation Buttons */}
-      <motion.button 
-        className="absolute left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-gray-900/80 backdrop-blur-md border border-cyan-500/30 rounded-full flex items-center justify-center text-white hover:bg-gray-800/90 hover:border-cyan-400/50 transition-all duration-300 group shadow-lg" 
-        onClick={scrollLeft} 
-        whileHover={{ scale: 1.1 }} 
-        whileTap={{ scale: 0.95 }}
-      >
-        <ChevronLeft className="w-6 h-6" />
-      </motion.button>
+    <div className="relative  py-16" ref={containerRef}>
 
-      <motion.button 
-        className="absolute right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-gray-900/80 backdrop-blur-md border border-cyan-500/30 rounded-full flex items-center justify-center text-white hover:bg-gray-800/90 hover:border-cyan-400/50 transition-all duration-300 group shadow-lg" 
-        onClick={scrollRight} 
-        whileHover={{ scale: 1.1 }} 
-        whileTap={{ scale: 0.95 }}
-      >
-        <ChevronRight className="w-6 h-6" />
-      </motion.button>
-
-      {/* Horizontal scrolling container with extra space for hover effects */}
-      <div className="relative h-[500px] w-full" style={{ overflow: 'visible' }}>
+      {/* Horizontal scrolling container */}
+      <div className="relative h-[70vh] w-full overflow-hidden">
         <motion.div 
           ref={scrollContainerRef} 
           className="flex gap-8 absolute left-0" 
-          animate={controls} 
+          animate={controls}
+          initial={{ x: 0 }}
           style={{
-            width: `${duplicatedProjects.length * 420 + duplicatedProjects.length * 32 + 420}px`
+            width: `${duplicatedProjects.length * 420 + (duplicatedProjects.length - 1) * 32}px`
           }} 
           onMouseEnter={handleMouseEnter} 
           onMouseLeave={onMouseLeave}

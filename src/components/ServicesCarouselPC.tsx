@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useLayoutEffect } from 'react';
+import { useEffect, useRef, useState, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -224,49 +224,63 @@ const ServicesCarouselPC = () => {
         </div>
 
         {/* Sticky Container */}
-        <div className="sticky top-0 h-screen flex items-center justify-center px-4 md:px-8 overflow-hidden">
-          {/* Beam and Titles Container */}
-          <div
-            ref={beamContainerRef}
-            className="absolute left-[5%] md:left-[16%] w-full h-full"
-          >
-            {/* Beam - Thin with Premium Glow */}
-            <div
-              ref={beamRef}
-              className="absolute w-px h-full z-10"
-              style={{ top: `${beamTop}px`, height: `${beamHeight}px` }}
-            >
-              <div className="w-full h-full relative">
-                {/* Static beam background (unfilled) */}
-                <div className="absolute top-0 left-1/2 w-0.5 h-full bg-gray-700/50 transform -translate-x-1/2"></div>
+<div className="sticky top-0 h-screen flex items-center justify-center px-4 md:px-8 overflow-hidden">
+  {/* Beam and Titles Container */}
+  <div
+    ref={beamContainerRef}
+    className="absolute left-[5%] md:left-[16%] w-full h-full"
+  >
+    {/* Custom Beam with Glowing Orb */}
+    <div
+      ref={beamRef}
+      className="absolute w-[2px] h-full z-10"
+      style={{ top: `${beamTop}px`, height: `${beamHeight}px` }}
+    >
+      <div className="w-full h-full relative overflow-visible">
+        {/* Beam background with soft mask */}
+        <div
+          className="absolute top-0 left-1/2 w-[2px] h-full transform -translate-x-1/2 
+          bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] 
+          from-transparent via-neutral-300 dark:via-neutral-700 to-transparent
+          [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)]"
+        ></div>
 
-                {/* Dynamic beam fill with enhanced shine */}
-                <div
-                  ref={beamFillRef}
-                  className="absolute top-0 left-1/2 w-0.5 h-0 bg-gradient-to-b from-cyan-400 to-purple-600 transform -translate-x-1/2 
-                  shadow-[0_0_15px_rgba(0,255,255,0.5)]"
-                ></div>
+        {/* Beam fill animation */}
+        <motion.div
+          ref={beamFillRef}
+          className="absolute top-0 left-1/2 w-[2px] h-full transform -translate-x-1/2 
+          bg-gradient-to-t from-purple-500 via-blue-500 to-transparent rounded-full"
+          style={{
+            opacity: 1,
+            boxShadow: '0 0 15px rgba(139, 92, 246, 0.6)',
+          }}
+        />
 
-                {/* Orb with smooth movement */}
-                <div
-                  ref={orbRef}
-                  className="absolute left-1/2 w-[29px] h-[29px] -translate-x-1/2 z-20"
-                  style={{
-                    top: 0,
-                    transform: 'translateX(-50%)',
-                    filter: 'drop-shadow(0 0 10px rgba(0, 255, 255, 0.8))'
-                  }}
-                >
-                  <img
-                    src="https://cdn-www.dora.run/__dora__/morpheus/static/images/ai/input-star.png"
-                    alt="orb"
-                    width={29}
-                    height={29}
-                    className="object-contain relative -top-2 animate-pulse"
-                  />
-                </div>
-              </div>
-            </div>
+        {/* Animated glowing orb */}
+        <motion.div
+         ref={orbRef}
+  className="absolute -left-3 -top-10 w-6 h-6 rounded-full transform -translate-x-1/2 z-20"
+  style={{
+    filter: 'drop-shadow(0 0 12px rgba(139, 92, 246, 0.8))',
+  }}
+/>
+  <motion.img
+    src="https://cdn-www.dora.run/__dora__/morpheus/static/images/ai/input-star.png"
+    alt="orb"
+    className="w-full h-full object-contain animate-pulse"
+    animate={{
+      scale: [1, 1.15, 1],
+      y: [0, -4, 0],
+      transition: {
+        duration: 2,
+        repeat: Infinity,
+        repeatType: 'mirror',
+        ease: 'easeInOut',
+      },
+    }}
+  />
+      </div>
+    </div>
 
             {/* Text Titles */}
             <div className="absolute left-[3%] md:left-[3%] top-0 w-full flex flex-col gap-8 md:gap-12 z-20 pt-[25vh]">

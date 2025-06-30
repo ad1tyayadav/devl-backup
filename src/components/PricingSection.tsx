@@ -1,96 +1,73 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Bot, Blocks, Smartphone, Palette, Crown, ArrowRight } from 'lucide-react';
+import { Code, Rocket, Cpu, BrainCircuit,} from "lucide-react"; 
 
 const PricingSection = () => {
   const services = [
     {
-      title: "AI Solutions",
-      icon: Bot,
-      // features: [                            currently we don't show this feature on cards so that's why commented out
-      //   "Custom AI model integration",
-      //   "Data automation workflows",
-      //   "Chatbot or NLP setup",
-      //   "Ongoing support"
-      // ], 
+      title: "Basic Development",
+      icon: Code, // Or use LayoutGrid/Layers for basic services
       moreFeatures: [
-        "Machine learning algorithms",
-        "Natural language processing",
-        "AI model training & optimization",
-        "Computer vision integration",
-        "Real-time data processing",
+        "E-commerce platforms (BuyOneGram)",
+        "CRM solutions (MananCRM, MahaShakti)",
+        "Food delivery systems",
+        "Landing page development",
+        "Service apps (Chiltel, AgsWonderWorld)"
       ],
-      price: "Starting from $999",
-      tag: "NEURAL",
+      price: "Starting from $799",
+      tag: "BASIC",
       cardNumber: "3782 822463 10005",
       cardHolder: "PREMIUM MEMBER",
       expiration: "12/30",
       securityCode: "1234"
     },
     {
-      title: "Blockchain Development",
-      icon: Blocks,
-      // features: [
-      //   "Smart contract development",
-      //   "DeFi protocol creation",
-      //   "NFT marketplace setup",
-      //   "Web3 integration"
-      // ],
+      title: "MVP Development",
+      icon: Rocket, // Flag also works for launch-focused
       moreFeatures: [
-        "Cross-chain compatibility",
-        "Token economics design",
-        "Gas optimization",
-        "Wallet integration",
-        "Decentralized governance"
+        "Equity-based partnerships",
+        "Rapid prototyping (Chiltel, Shaswat)",
+        "Full-pack solutions (Easy2Trip)",
+        "Energy sector MVPs (EnerzyFlow)",
+        "Investor-ready products"
       ],
-      price: "Starting from $1,499",
-      tag: "CRYPTO",
+      price: "Equity-Based", // Or "Starting from $1,499" if hybrid
+      tag: "MVPs",
       cardNumber: "3742 456789 12345",
       cardHolder: "PREMIUM MEMBER",
       expiration: "03/29",
       securityCode: "5678"
     },
     {
-      title: "App & Website Development",
-      icon: Smartphone,
-      // features: [
-      //   "Responsive web applications",
-      //   "Mobile app development",
-      //   "E-commerce platforms",
-      //   "Progressive web apps"
-      // ],
+      title: "Scalable Solutions",
+      icon: Cpu, // Or ArrowUpCircle for growth
       moreFeatures: [
-        "Cross-platform development",
-        "Performance optimization",
-        "SEO implementation",
-        "Third-party integrations",
-        "Maintenance & support"
+        "Platform development (MutaneX)",
+        "Community apps (PujaPathSeva)",
+        "Loyalty systems (Drippit)",
+        "Enterprise suites (EnerzyFlow Main)",
+        "Custom integrations"
       ],
-      price: "Starting from $799",
-      tag: "MOBILE",
+      price: "Starting from $1,999",
+      tag: "INTERMEDIATE",
       cardNumber: "3700 123456 78901",
       cardHolder: "PREMIUM MEMBER",
       expiration: "08/31",
       securityCode: "9012"
     },
     {
-      title: "UI/UX Designing",
-      icon: Palette,
-      // features: [
-      //   "User interface design",
-      //   "User experience optimization",
-      //   "Prototyping & wireframing",   
-      //   "Design system creation"
-      // ],
+      title: "Advanced Tech",
+      icon: BrainCircuit, // Or Blocks for blockchain focus
       moreFeatures: [
-        "User research & testing",
-        "Accessibility compliance",
-        "Design consultation",
-        "Style guide creation",
-        "Interactive prototypes"
+        "Blockchain wallets & bridges",
+        "AI agents (BubAI)",
+        "Web3 payment gateways",
+        "Ecosystem projects (Prabaha)",
+        "Devlaunch AI/SEO tools"
       ],
-      price: "Starting from $599",
-      tag: "DESIGN",
+      price: "Starting from $2,499",
+      tag: "ADVANCED",
       cardNumber: "3767 891234 56789",
       cardHolder: "PREMIUM MEMBER",
       expiration: "05/28",
@@ -239,7 +216,7 @@ const PricingSection = () => {
                     <div className="h-12 bg-black w-full mt-2" />
 
                     {/* Security code */}
-                    <div className="flex justify-end mt-2 mr-8">
+                    <div className="flex justify-end mt- mr-8">
                       <div className="text-gray-400 text-xs mr-2">SECURITY CODE</div>
                       <div className="bg-white px-3 py-1 rounded-sm">
                         <span className="text-black font-mono font-bold">{service.securityCode}</span>
@@ -249,11 +226,11 @@ const PricingSection = () => {
 
                     {/* Extended Features */}
                     <div className="px-8">
-                      <h3 className="text-white font-long font-bold text-xl drop-shadow-lg text-center">
+                      <h3 className="text-white font-long font-bold text-xl mb-2 drop-shadow-lg text-center">
                         {service.title}
                       </h3>
 
-                      <div className="space-y-3 mb-6 max-h-40 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-amber-400/30 scrollbar-track-gray-800/50">
+                      <div className="space-y-3  max-h-40 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-amber-400/30 scrollbar-track-gray-800/50">
                         {service.moreFeatures.map((feature, featureIndex) => (
                           <div
                             key={featureIndex}
@@ -268,7 +245,7 @@ const PricingSection = () => {
 
                     {/* Back Card Footer */}
                     <div className="absolute bottom-6 left-6 right-6 flex justify-between items-center">
-                      <div className="text-transparent bg-gradient-to-r from-amber-300 via-amber-200 to-amber-400 bg-clip-text font-orbitron font-bold text-xl">
+                      <div className="text-transparent bg-gradient-to-r from-amber-300 via-amber-200 to-amber-400 bg-clip-text font-bold text-xl">
                         {service.price}
                       </div>
 

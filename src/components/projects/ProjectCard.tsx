@@ -27,11 +27,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
         <CardBody
        className="
     relative group/card 
-    bg-transparent border border-white/10 
+    bg-transparent 
     rounded-xl 
     p-4 sm:p-6 
     w-[80%] sm:w-[8%] md:w-[92%] 
-    h-[480px] sm:h-[500px] 
+    h-[480px] sm:h-[59vh] 
     flex flex-col justify-between 
     hover:shadow-xl transition-shadow
   "

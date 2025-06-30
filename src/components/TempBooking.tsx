@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Video } from 'lucide-react';
 import { motion } from 'framer-motion'
+import GlowBtn from './ui/GlowBtn';
 
 const TempBooking: React.FC = () => {
     return (
@@ -12,20 +13,24 @@ const TempBooking: React.FC = () => {
                     <p className="text-gray-300 mb-6">
                         Schedule a call with our team to discuss your project. Our new booking system is coming soon!
                     </p>
-                    <Link to="https://calendly.com/akshat2k24/new-meeting">
-                        <motion.button
-                            className="bg-white/5 bg-gradient-to-r from-cyber-blue/10 to-cyber-purple/10 backdrop-blur-md border border-white/10 rounded-xl text-lg px-12 py-6 inline-flex items-center space-x-3 text-white font-semibold transition-all duration-300 hover:border-cyber-blue hover:shadow-[0_0_30px_rgba(0,245,255,0.5)] hover:bg-cyber-blue/10"
-                            whileHover={{
-                                scale: 1.05,
-                            }}
-                            whileTap={{
-                                scale: 0.95
-                            }}
-                        >
-                            <span>Book your call now!</span>
-                            <Video className="w-5 h-5 mr-2" />
-                        </motion.button>
-                    </Link>
+                    <a 
+                      href="https://calendly.com/akshat2k24/new-meeting"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block mx-auto max-w-max"
+                    >
+                      <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        viewport={{ once: true }}
+                        className="relative group inline-block"
+                      >
+
+                        <GlowBtn to={'https://calendly.com/akshat2k24/new-meeting'} label='Book Your Call!' />
+                      </motion.div>
+                    </a>
+
                 </div>
             </div>
             <div className="absolute top-1/4 left-0 w-72 h-72 bg-gradient-to-r from-cyber-blue/5 to-transparent rounded-full blur-3xl" />

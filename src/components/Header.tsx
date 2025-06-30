@@ -36,28 +36,27 @@ const Header: React.FC = () => {
         open: { y: 0, opacity: 1, transition: { duration: 0.5, ease: 'easeOut' } },
     };
 
-  
-  const [showHeader, setShowHeader] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
+    const [showHeader, setShowHeader] = useState(false);
 
-      const scrollY = window.scrollY;
-      if (scrollY > 100) {
-        setShowHeader(true);
-      } else {
-        setShowHeader(false);
-      }
-    };
+    useEffect(() => {
+        const handleScroll = () => {
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+            const scrollY = window.scrollY;
+            if (scrollY > 100) {
+                setShowHeader(true);
+            } else {
+                setShowHeader(false);
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
     return (
-        <header className={`fixed top-0 left-0 w-full z-50 transition-transform duration-300 z-50 ${
-        showHeader ? "translate-y-0" : "-translate-y-full"
-      }  backdrop-blur-lg`}>
+        <header className={`fixed top-0 left-0 w-full transition-transform duration-300 z-50 ${showHeader ? "translate-y-0" : "-translate-y-full"
+            }  backdrop-blur-lg`}>
             <div className="container mx-auto px-6 py-4 flex items-center justify-between">
                 {/* Logo */}
                 <motion.a
@@ -84,20 +83,20 @@ const Header: React.FC = () => {
                             <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-cyan-400 group-hover:w-full transition-all duration-300" />
                         </motion.a>
                     ))}
-                    <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        transition={{ duration: 0.3 }}
-                        onClick={() => window.location.href = '#book'}
-                        className="inline-block cursor-pointer z-50 relative"
-                    >
-                        <a
-                            href="https://calendly.com/akshat2k24/new-meeting"
-                            className="inline-flex items-center h-10 text-sm font-semibold px-4 bg-gradient-to-r from-cyan-500 to-purple-500 hover:shadow-[0_0_25px_rgba(0,245,255,0.5)] transition-all duration-300 rounded-md text-white"
+                    <motion.li className="list-none relative z-20" whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }}>
+                        <Button
+                            className="inline-flex relative items-center h-10 text-sm font-semibold px-4 bg-transparent hover:shadow-[0_0_25px_rgba(0,245,255,0.5)] transition-all duration-300 rounded-md text-white border border-cyan-400/50 group-hover:border-cyber-blue"
+
+                            onClick={() => {
+                                window.location.href = 'https://calendly.com/akshat2k24/new-meeting';
+                                toggleMenu();
+                            }}
                         >
                             <Video className="w-4 h-4 mr-2" />
                             Book Now
-                        </a>
-                    </motion.div>
+                        </Button>
+                    </motion.li>
+
                 </nav>
 
                 {/* Mobile Menu Button */}
@@ -136,7 +135,7 @@ const Header: React.FC = () => {
                                     </a>
                                 </motion.li>
                             ))}
-                            <motion.li whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }}>
+                            <motion.li className="list-none" whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }}>
                                 <Button
                                     className="cyber-button h-10 text-sm font-semibold bg-gradient-to-r from-cyan-500 to-purple-500 hover:shadow-[0_0_25px_rgba(0,245,255,0.5)] transition-all duration-300"
                                     onClick={() => {
