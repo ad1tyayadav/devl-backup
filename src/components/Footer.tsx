@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
     ];
 
     return (
-        <footer className="relative bg-gray-900/50 backdrop-blur-md py-12 border-t border-cyan-500/20">
+        <footer className="relative glass-morphism py-12 border-t border-cyan-500/20">
             <div className="container mx-auto px-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
                     {/* Brand Section */}

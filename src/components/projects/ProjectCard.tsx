@@ -26,7 +26,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
       <CardContainer className="w-full">
         <CardBody
        className="
-    relative group/card 
+    relative group/card border
     bg-transparent 
     rounded-xl 
     p-4 sm:p-6 

@@ -136,7 +136,7 @@ const PricingSection = () => {
                 <div className="relative w-full h-full [transform-style:preserve-3d] transition-transform duration-700 group-hover:[transform:rotateY(180deg)]">
 
                   {/* Front of Card - American Express Style */}
-                  <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-3xl overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.8),0_0_100px_rgba(255,255,255,0.05)_inset,0_0_200px_rgba(255,255,255,0.02)_inset] border-2 border-gray-600/30 group-hover:shadow-[0_35px_70px_rgba(0,0,0,0.9),0_0_120px_rgba(255,255,255,0.08)_inset] transition-all duration-500">
+                  <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] bg-gradient-to-br from-gray-900 via-black to-gray-800 rounded-3xl overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.8),0_0_100px_rgba(255,255,255,0.05)_inset,0_0_200px_rgba(255,255,255,0.02)_inset] border-2 border-gray-600/30 group-hover:shadow-[0_35px_70px_rgba(0,0,0,0.9),0_0_120px_rgba(255,255,255,0.08)_inset] transition-all duration-500">
 
                     {/* Premium metallic texture */}
                     <div className="absolute inset-0 opacity-20"
@@ -210,7 +210,7 @@ const PricingSection = () => {
                   </div>
 
                   {/* Back of Card */}
-                  <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-3xl overflow-hidden shadow-[0_35px_70px_rgba(0,0,0,0.9),0_0_120px_rgba(255,255,255,0.08)_inset] border-2 border-gray-600/30">
+                  <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] bg-gradient-to-br from-gray-900 via-black to-gray-800 rounded-3xl overflow-hidden shadow-[0_35px_70px_rgba(0,0,0,0.9),0_0_120px_rgba(255,255,255,0.08)_inset] border-2 border-gray-600/30">
 
                     {/* Magnetic strip */}
                     <div className="h-12 bg-black w-full mt-2" />

@@ -1,7 +1,6 @@
-// components/GlowBtn.jsx
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 const sizeClasses = {
   small: "px-4 py-2 text-sm sm:text-base",
@@ -9,43 +8,69 @@ const sizeClasses = {
   large: "px-12 py-6 sm:px-14 sm:py-7 text-xl sm:text-2xl"
 };
 
-const GlowBtn = ({ to, label = "Click Here", className = "", size = "medium" }) => {
+const GlowBtn = ({
+  to,
+  label = "Click Here",
+  className = "",
+  size = "medium",
+  newTab = false
+}) => {
   const sizeClass = sizeClasses[size] || sizeClasses.medium;
+  const isExternal = to.startsWith("http");
 
-  return (
-    <Link 
-      to={to} 
-      onClick={() => setTimeout(() => window.scrollTo(0, 0), 10)}
-      className={`block max-w-max ${className}`}
+  const ButtonContent = (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      viewport={{ once: true }}
+      className="relative group inline-block"
     >
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-        className="relative group inline-block"
+      {/* Subtle background glow */}
+      <div className="absolute -inset-1 bg-gray-400 rounded-xl opacity-20 group-hover:opacity-40 blur-sm transition-all duration-300"></div>
+
+      <motion.button
+        className={`relative bg-gray-900 text-white rounded-xl font-mono inline-flex items-center border-2 border-gray-400/50 group-hover:border-gray-400 transition-all duration-300 ${sizeClass}`}
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.97 }}
       >
-        {/* Subtle background glow */}
-        <div className="absolute -inset-1 bg-gray-400 rounded-xl opacity-20 group-hover:opacity-40 blur-sm transition-all duration-300"></div>
+        <span className="mr-3">{label}</span>
 
-        <motion.button
-          className={`relative bg-gray-900 text-white rounded-xl font-mono inline-flex items-center border-2 border-gray-400/50 group-hover:border-gray-400 transition-all duration-300 ${sizeClass}`}
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.97 }}
-        >
-          <span className="mr-3">{label}</span>
+        {/* Magical Arrow Animation */}
+        <div className="relative flex items-center">
+          <span className="text-white text-2xl group-hover:opacity-0 transition-opacity duration-300">›</span>
+          <span className="text-white text-2xl opacity-0 group-hover:opacity-100 absolute left-0 transition-opacity duration-300">→</span>
+        </div>
+      </motion.button>
 
-          {/* Magical Arrow Animation */}
-          <div className="relative flex items-center">
-            <span className="text-white text-2xl group-hover:opacity-0 transition-opacity duration-300">›</span>
-            <span className="text-white text-2xl opacity-0 group-hover:opacity-100 absolute left-0 transition-opacity duration-300">→</span>
-          </div>
-        </motion.button>
+      {/* Outer glow ring */}
+      <div className="absolute -inset-4 rounded-xl border border-gray-400/50 opacity-0 group-hover:opacity-100 scale-105 group-hover:scale-100 transition-all duration-500"></div>
+    </motion.div>
+  );
 
-        {/* Outer glow ring */}
-        <div className="absolute -inset-4 rounded-xl border border-gray-400/50 opacity-0 group-hover:opacity-100 scale-110 group-hover:scale-100 transition-all duration-500"></div>
-      </motion.div>
-    </Link>
+  // External link
+  if (isExternal) {
+    return (
+      <a
+        href={to}
+        target={newTab ? "_blank" : "_self"}
+        rel={newTab ? "noopener noreferrer" : undefined}
+        className={`block max-w-max ${className}`}
+      >
+        {ButtonContent}
+      </a>
+    );
+  }
+
+  // Internal route (react-router-dom)
+  return (
+    <RouterLink
+      to={to}
+      className={`block max-w-max ${className}`}
+      onClick={() => setTimeout(() => window.scrollTo(0, 0), 10)}
+    >
+      {ButtonContent}
+    </RouterLink>
   );
 };
 

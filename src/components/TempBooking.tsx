@@ -27,7 +27,7 @@ const TempBooking: React.FC = () => {
                         className="relative group inline-block"
                       >
 
-                        <GlowBtn to={'https://calendly.com/akshat2k24/new-meeting'} label='Book Your Call!' />
+                        <GlowBtn to={'https://calendly.com/akshat2k24/new-meeting'} label='Ready for Launch!' size='small'/>
                       </motion.div>
                     </a>
 

@@ -40,7 +40,7 @@ export const projectsData: Project[] = [
     tags: ["Blockchain", "DeFi", "Solidity", "Web3"],
     featured: true,
     type: 'devlaunch',
-    liveLink: "https://example.com/defi",
+    liveLink: "https://example.com/defiftg",
     githubLink: "https://github.com/example/defi"
   },
   {

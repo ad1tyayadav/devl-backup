@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {  X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Project } from '@/data/projectData';
 import ThreeBackground from '../ThreeBackground';
 import GlowBtn from '../ui/GlowBtn';
+import { useHeader } from '@/context/HeaderContext';
 
 interface ProjectModalProps {
   isOpen: boolean;
@@ -14,6 +15,7 @@ interface ProjectModalProps {
 }
 
 export const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, project, onClose }) => {
+  const { setIsHeaderVisible } = useHeader();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageLoadErrors, setImageLoadErrors] = useState<Set<number>>(new Set());
 
@@ -21,15 +23,17 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, project, onC
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      setIsHeaderVisible(false);
     } else {
       document.body.style.overflow = 'unset';
+      setIsHeaderVisible(true);
     }
 
-    // Cleanup on unmount
     return () => {
       document.body.style.overflow = 'unset';
+      setIsHeaderVisible(true);
     };
-  }, [isOpen]);
+  }, [isOpen, setIsHeaderVisible]);
 
   // Reset image index and errors when project changes
   useEffect(() => {
@@ -75,16 +79,16 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, project, onC
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div 
-          className="fixed inset-0 bg-black/50 backdrop-blur-xl flex justify-center items-center z-50 p-4" 
-          initial={{ opacity: 0 }} 
-          animate={{ opacity: 1 }} 
-          exit={{ opacity: 0 }} 
+        <motion.div
+          className="fixed inset-0 bg-black/50 backdrop-blur-xl flex justify-center items-center z-50 p-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
           onClick={onClose}
         >
           <ThreeBackground />
-          <motion.div 
+          <motion.div
             className="relative max-w-4xl w-full max-h-[90vh] bg-white/5 backdrop-blur-3xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl flex flex-col"
             style={{
               boxShadow: `
@@ -92,17 +96,17 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, project, onC
                 inset 0 1px 0 rgba(255,255,255,0.1)
               `
             }}
-            initial={{ y: 40, opacity: 0, scale: 0.96 }} 
-            animate={{ y: 0, opacity: 1, scale: 1 }} 
-            exit={{ y: 40, opacity: 0, scale: 0.96 }} 
+            initial={{ y: 40, opacity: 0, scale: 0.96 }}
+            animate={{ y: 0, opacity: 1, scale: 1 }}
+            exit={{ y: 40, opacity: 0, scale: 0.96 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="absolute top-4 right-4 md:top-6 md:right-6 z-30 text-white/60 hover:text-white hover:bg-white/10 rounded-full transition-all duration-200 backdrop-blur-sm border border-white/10 hover:border-white/20" 
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute top-4 right-4 md:top-6 md:right-6 z-30 text-white/60 hover:text-white hover:bg-white/10 rounded-full transition-all duration-200 backdrop-blur-sm border border-white/10 hover:border-white/20"
               onClick={onClose}
             >
               <X className="h-4 w-4" />
@@ -176,11 +180,10 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, project, onC
                         <button
                           key={index}
                           onClick={() => goToImage(index)}
-                          className={`w-2 h-2 rounded-full transition-all duration-200 ${
-                            index === currentImageIndex 
-                              ? 'bg-white shadow-lg scale-125' 
+                          className={`w-2 h-2 rounded-full transition-all duration-200 ${index === currentImageIndex
+                              ? 'bg-white shadow-lg scale-125'
                               : 'bg-white/40 hover:bg-white/60'
-                          }`}
+                            }`}
                         />
                       ))}
                     </div>
@@ -235,8 +238,8 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, project, onC
                   </h3>
                   <div className="flex flex-wrap gap-1 md:gap-2">
                     {project.tags.map((tag, index) => (
-                      <Badge 
-                        key={index} 
+                      <Badge
+                        key={index}
                         className="bg-white/5 border border-white/10 text-white/80 hover:bg-white/10 hover:border-white/20 transition-all duration-200 px-2 py-0.5 md:px-3 md:py-1 text-xs font-normal"
                       >
                         {tag}
@@ -264,14 +267,15 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, project, onC
                   <GlowBtn
                     to={project.liveLink}
                     label='View Live'
-                    size='small' 
+                    size='small'
+                    newTab
                   />
                 )}
               </div>
             </div>
 
             {/* Subtle gradient overlay */}
-            <div 
+            <div
               className="absolute inset-0 pointer-events-none rounded-3xl"
               style={{
                 background: `

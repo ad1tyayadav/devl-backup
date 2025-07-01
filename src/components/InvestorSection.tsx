@@ -17,7 +17,7 @@ const InvestorSection = () => {
     color: "from-green-400 to-teal-500"
   }, {
     icon: Rocket,
-    value: "500+",
+    value: "50+",
     label: "MVPs Launched",
     color: "from-orange-400 to-red-500"
   }];
@@ -97,7 +97,7 @@ const InvestorSection = () => {
     viewport={{ once: true }}
     className="relative group inline-block"
   >
-   <GlowBtn to="/investor-deck" label="View Full Investor Deck" />
+   <GlowBtn to="/investor-deck" label="View Full Investor Deck" size='small' />
 
     {/* Outer glow ring */}
     <div className="absolute -inset-4 rounded-xl border border-gray-400/50 opacity-0 group-hover:opacity-100 scale-110 group-hover:scale-100 transition-all duration-500"></div>
