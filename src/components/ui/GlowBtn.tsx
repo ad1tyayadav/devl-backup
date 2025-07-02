@@ -13,12 +13,13 @@ const GlowBtn = ({
   label = "Click Here",
   className = "",
   size = "medium",
-  newTab = false
+  newTab = false,
+  ...buttonProps
 }) => {
   const sizeClass = sizeClasses[size] || sizeClasses.medium;
-  const isExternal = to.startsWith("http");
+  const isExternal = to && to.startsWith("http");
 
-  const ButtonContent = (
+  const ButtonVisual = (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -29,26 +30,38 @@ const GlowBtn = ({
       {/* Subtle background glow */}
       <div className="absolute -inset-1 bg-gray-400 rounded-xl opacity-20 group-hover:opacity-40 blur-sm transition-all duration-300"></div>
 
-      <motion.button
+      <motion.div
         className={`relative bg-gray-900 text-white rounded-xl font-mono inline-flex items-center border-2 border-gray-400/50 group-hover:border-gray-400 transition-all duration-300 ${sizeClass}`}
         whileHover={{ scale: 1.03 }}
         whileTap={{ scale: 0.97 }}
       >
         <span className="mr-3">{label}</span>
 
-        {/* Magical Arrow Animation */}
+        {/* Arrow Animation */}
         <div className="relative flex items-center">
           <span className="text-white text-2xl group-hover:opacity-0 transition-opacity duration-300">›</span>
           <span className="text-white text-2xl opacity-0 group-hover:opacity-100 absolute left-0 transition-opacity duration-300">→</span>
         </div>
-      </motion.button>
+      </motion.div>
 
       {/* Outer glow ring */}
       <div className="absolute -inset-4 rounded-xl border border-gray-400/50 opacity-0 group-hover:opacity-100 scale-105 group-hover:scale-100 transition-all duration-500"></div>
     </motion.div>
   );
 
-  // External link
+  // For buttons without links
+  if (!to) {
+    return (
+      <button 
+        {...buttonProps}
+        className={`block max-w-max ${className}`}
+      >
+        {ButtonVisual}
+      </button>
+    );
+  }
+
+  // External links
   if (isExternal) {
     return (
       <a
@@ -56,20 +69,22 @@ const GlowBtn = ({
         target={newTab ? "_blank" : "_self"}
         rel={newTab ? "noopener noreferrer" : undefined}
         className={`block max-w-max ${className}`}
+        {...buttonProps}
       >
-        {ButtonContent}
+        {ButtonVisual}
       </a>
     );
   }
 
-  // Internal route (react-router-dom)
+  // Internal router links
   return (
     <RouterLink
       to={to}
       className={`block max-w-max ${className}`}
       onClick={() => setTimeout(() => window.scrollTo(0, 0), 10)}
+      {...buttonProps}
     >
-      {ButtonContent}
+      {ButtonVisual}
     </RouterLink>
   );
 };

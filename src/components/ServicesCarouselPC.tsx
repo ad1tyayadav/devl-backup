@@ -186,6 +186,7 @@ const ServicesCarouselPC = () => {
 
   return (
     <section
+      id="services"
       ref={sectionRef}
       className="relative w-full right-10 overflow-hidden hidden lg:block"
       style={{ height: `${(phases.length + 1) * 20}vh` }}
@@ -193,33 +194,33 @@ const ServicesCarouselPC = () => {
       {/* Service Selector */}
       <div className='relative top-40'>
         <div className="hidden sm:flex absolute top-10 left-1/2 transform -translate-x-1/2 z-30 gap-3 h-10">
-  {services.map((s, index) => (
-    <div key={s.title} className="h-10">
-      {index === selectedServiceIndex ? (
-        // Active button with moving border
-        <MovingBorderButton
-          borderRadius="0.375rem"
-          className="font-medium bg-slate-900 text-white"
-          borderClassName="bg-[radial-gradient(#0ea5e9_40%,transparent_60%)]"
-          duration={3000}
-          onClick={() => setSelectedServiceIndex(index)}
-        >
-          {s.title}
-        </MovingBorderButton>
-      ) : (
-        // Inactive button
-        <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className="px-5 py-2.5 rounded-md text-sm font-medium border border-white/20 bg-transparent hover:border-white/40 text-white h-16"
-          onClick={() => setSelectedServiceIndex(index)}
-        >
-          {s.title}
-        </motion.button>
-      )}
-    </div>
-  ))}
-</div>
+          {services.map((s, index) => (
+            <div key={s.title} className="h-10">
+              {index === selectedServiceIndex ? (
+                // Active button with moving border
+                <MovingBorderButton
+                  borderRadius="0.375rem"
+                  className="font-medium bg-slate-900 text-white"
+                  borderClassName="bg-[radial-gradient(#0ea5e9_40%,transparent_60%)]"
+                  duration={3000}
+                  onClick={() => setSelectedServiceIndex(index)}
+                >
+                  {s.title}
+                </MovingBorderButton>
+              ) : (
+                // Inactive button
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="px-5 py-2.5 rounded-md text-sm font-medium border border-white/20 bg-transparent hover:border-white/40 text-white h-16"
+                  onClick={() => setSelectedServiceIndex(index)}
+                >
+                  {s.title}
+                </motion.button>
+              )}
+            </div>
+          ))}
+        </div>
 
         {/* Sticky Container */}
         <div className="sticky top-0 h-screen flex items-center justify-center px-4 md:px-8 overflow-hidden">
@@ -291,8 +292,8 @@ const ServicesCarouselPC = () => {
                   animate={{
                     opacity: i <= currentPhaseIndex ? 1 : 0.5,
                     x: 0, // Animate to left
-                    transition: { 
-                      duration: 0.6, 
+                    transition: {
+                      duration: 0.6,
                       ease: [0.16, 1, 0.3, 1],
                       delay: i * 0.1
                     }
@@ -300,21 +301,20 @@ const ServicesCarouselPC = () => {
                 >
                   {/* Active indicator bar */}
                   {i === currentPhaseIndex && (
-                    <motion.div 
+                    <motion.div
                       className="absolute -left-5 top-1/2 h-0.5 w-4 bg-white"
                       initial={{ width: 0 }}
                       animate={{ width: 16 }}
                       transition={{ duration: 0.4, ease: "easeOut" }}
                     />
                   )}
-                  
+
                   <motion.div
-                    className={`text-xl md:text-2xl font-medium transition-all duration-500 ${
-                      i === currentPhaseIndex
-                        ? 'text-white'
-                        : 'text-white/50'
-                    }`}
-                    whileHover={{ 
+                    className={`text-xl md:text-2xl font-medium transition-all duration-500 ${i === currentPhaseIndex
+                      ? 'text-white'
+                      : 'text-white/50'
+                      }`}
+                    whileHover={{
                       x: i === currentPhaseIndex ? 0 : 5,
                       transition: { duration: 0.2 }
                     }}

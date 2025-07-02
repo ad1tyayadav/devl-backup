@@ -25,16 +25,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
     <div onClick={onClick} className="cursor-pointer w-full">
       <CardContainer className="w-full">
         <CardBody
-       className="
-    relative group/card border
-    bg-transparent 
-    rounded-xl 
-    p-4 sm:p-6 
-    w-[80%] sm:w-[8%] md:w-[92%] 
-    h-[480px] sm:h-[59vh] 
-    flex flex-col justify-between 
-    hover:shadow-xl transition-shadow
-  "
+          className="
+            relative group/card border bg-transparent rounded-xl
+            p-4 sm:p-6
+            w-full
+            min-h-[450px] sm:min-h-[500px] lg:min-h-[540px]
+            flex flex-col justify-between
+            hover:shadow-xl transition-shadow
+          "
         >
           {/* Title */}
           <CardItem
@@ -53,13 +51,15 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
             {project.description}
           </CardItem>
 
-          {/* Image - Now fills more space */}
-          <CardItem translateZ="100" className="mt-4 flex-1 pointer-events-none">
-            <img
-              src={project.image}
-              alt={project.title}
-              className="w-full h-full object-cover rounded-xl shadow-lg group-hover/card:shadow-cyan-500/30 min-h-[200px] sm:min-h-[240px]"
-            />
+          {/* Image */}
+          <CardItem translateZ="100" className="mt-4 flex-grow pointer-events-none">
+            <div className="w-full aspect-[4/3] sm:aspect-[16/10] overflow-hidden rounded-xl shadow-lg group-hover/card:shadow-cyan-500/30">
+              <img
+                src={project.image}
+                alt={project.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
           </CardItem>
 
           {/* Tags */}

@@ -1,110 +1,46 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import  Button from '../components/ui/TakemeBtn'
+import Button from '../components/ui/TakemeBtn';
 
 const HeroSection: React.FC = () => {
-  const [mousePosition, setMousePosition] = useState({
-    x: 0,
-    y: 0
-  });
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  
+  // Memoized words array to prevent unnecessary re-renders
+  const words = useMemo(() => ['Innovate', 'Develop', 'Launch'], []);
+  
+  // Optimized mouse movement handler with useCallback
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    setMousePosition({ x: e.clientX, y: e.clientY });
+  }, []);
 
   // Track mouse movement
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: e.clientX,
-        y: e.clientY
-      });
-    };
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  }, [handleMouseMove]);
 
-  // Calculate distance between cursor and element
-  const getDistance = (x1: number, y1: number, x2: number, y2: number) => {
-    return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-  };
+  // Cycle through words every 2.5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentWordIndex((prevIndex) => (prevIndex + 1) % words.length);
+    }, 2500);
+    return () => clearInterval(interval);
+  }, [words.length]);
 
-  // Tech elements data with positions
-  const techElements = [{
-    id: 1,
-    x: 10,
-    y: 15,
-    type: 'node',
-    content: 'API_NODE_01'
-  }, {
-    id: 2,
-    x: 85,
-    y: 20,
-    type: 'panel',
-    content: 'DATA_STREAM'
-  }, {
-    id: 3,
-    x: 15,
-    y: 70,
-    type: 'circuit',
-    content: '[CIRCUIT_BOARD]'
-  }, {
-    id: 4,
-    x: 75,
-    y: 80,
-    type: 'databox',
-    content: 'STATUS: ONLINE'
-  }, {
-    id: 5,
-    x: 50,
-    y: 10,
-    type: 'node',
-    content: 'CORE_SYSTEM'
-  }, {
-    id: 6,
-    x: 5,
-    y: 45,
-    type: 'panel',
-    content: 'NETWORK_HUB'
-  }, {
-    id: 7,
-    x: 90,
-    y: 50,
-    type: 'circuit',
-    content: '{QUANTUM_LINK}'
-  }, {
-    id: 8,
-    x: 25,
-    y: 25,
-    type: 'databox',
-    content: 'UPTIME: 99.9%'
-  }, {
-    id: 9,
-    x: 60,
-    y: 85,
-    type: 'node',
-    content: 'BACKUP_NODE'
-  }, {
-    id: 10,
-    x: 35,
-    y: 60,
-    type: 'panel',
-    content: 'FIREWALL_ACTIVE'
-  }];
-
-  // Animation variants for individual letters
-  const letterVariants = {
-    hidden: {
-      opacity: 0,
-      x: -20,
-      scale: 0.8
-    },
+  // Memoized animation variants
+  const letterVariants = useMemo(() => ({
+    hidden: { opacity: 0, x: -20, scale: 0.8 },
     visible: (i: number) => ({
       opacity: 1,
       x: 0,
       scale: 1,
       transition: {
-        delay: i * 0.15,
-        duration: 0.5,
+        delay: i * 0.1,
+        duration: 0.4,
         type: "spring" as const,
-        stiffness: 100,
-        damping: 10
+        stiffness: 120,
+        damping: 12
       }
     }),
     hover: {
@@ -118,168 +54,89 @@ const HeroSection: React.FC = () => {
         damping: 10
       }
     }
-  };
+  }), []);
 
-  // Blinking cursor animation
-  const cursorVariants = {
+  const cursorVariants = useMemo(() => ({
     blink: {
       opacity: [1, 0, 1],
       transition: {
-        duration: 0.5,
+        duration: 0.8,
         repeat: Infinity,
         ease: "easeInOut"
       }
     }
-  };
+  }), []);
 
-  // Animation variants for words
-  const wordVariants = {
+  const wordVariants = useMemo(() => ({
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-    exit: { opacity: 0, y: -20, transition: { duration: 0.5 } }
-  };
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { 
+        duration: 0.6,
+        ease: "easeOut"
+      } 
+    },
+    exit: { 
+      opacity: 0, 
+      y: -20, 
+      transition: { 
+        duration: 0.4,
+        ease: "easeIn"
+      } 
+    }
+  }), []);
 
-  // State for cycling words
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const words = ['Innovate', 'Develop', 'Launch'];
-
-  // Cycle through words every 2 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentWordIndex((prevIndex) => (prevIndex + 1) % words.length);
-    }, 2000);
-    return () => clearInterval(interval);
-  }, [words.length]);
-
-  // Scroll one screen down
-  const handleScroll = () => {
-    window.scrollBy({
-      top: window.innerHeight,
-      behavior: 'smooth'
-    });
-  };
-
-  const devLaunchLetters = "DevLaunch".split("");
+  const devLaunchLetters = useMemo(() => "DevLaunch".split(""), []);
 
   return (
-    <section id='home' className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16 sm:pt-20">
+    <section 
+      id='home' 
+      className="min-h-screen flex items-center justify-center overflow-hidden relative"
+    >
       <style>
         {`
-          @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
         `}
       </style>
 
       {/* Enhanced cursor-following glow effect */}
-      <motion.div
+      <motion.div 
         className="fixed pointer-events-none z-0"
         style={{
-          left: mousePosition.x - (window.innerWidth < 640 ? 150 : 300),
-          top: mousePosition.y - (window.innerWidth < 640 ? 150 : 300),
-          width: window.innerWidth < 640 ? 300 : 600,
-          height: window.innerWidth < 640 ? 300 : 600,
-          background: 'radial-gradient(circle, rgba(0, 245, 255, 0.2) 0%, rgba(139, 92, 246, 0.15) 25%, rgba(255, 0, 128, 0.1) 50%, transparent 70%)',
+          left: mousePosition.x - 300,
+          top: mousePosition.y - 300,
+          width: 600,
+          height: 600,
+          background: 'radial-gradient(circle, rgba(0, 245, 255, 0.15) 0%, rgba(139, 92, 246, 0.1) 25%, rgba(255, 0, 128, 0.08) 50%, transparent 70%)',
           borderRadius: '50%',
-          filter: 'blur(60px)'
+          filter: 'blur(80px)'
         }}
         animate={{
           scale: [1, 1.2, 1],
-          opacity: [0.4, 0.7, 0.4]
+          opacity: [0.3, 0.6, 0.3]
         }}
         transition={{
-          duration: 3,
+          duration: 4,
           repeat: Infinity,
           ease: "easeInOut"
         }}
       />
 
-      {/* Tech-themed UI elements that reveal on proximity */}
-      {techElements.map(element => {
-        const elementX = element.x / 100 * window.innerWidth;
-        const elementY = element.y / 100 * window.innerHeight;
-        const distance = getDistance(mousePosition.x, mousePosition.y, elementX, elementY);
-        const isNear = distance < (window.innerWidth < 640 ? 100 : 150);
-        const opacity = isNear ? Math.max(0.1, 1 - distance / (window.innerWidth < 640 ? 100 : 150)) : 0;
-        return (
-          <motion.div
-            key={element.id}
-            className="fixed pointer-events-none z-5"
-            style={{
-              left: `${element.x}%`,
-              top: `${element.y}%`,
-              transform: 'translate(-50%, -50%)'
-            }}
-            animate={{
-              opacity: opacity,
-              scale: isNear ? 1 : 0.8
-            }}
-            transition={{
-              duration: 0.6,
-              ease: "easeOut"
-            }}
-          >
-            {/* <div
-              className={`
-                ${element.type === 'node' ? 'w-12 h-12 sm:w-16 sm:h-16 border-2 border-cyber-blue rounded-full flex items-center justify-center' : ''}
-                ${element.type === 'panel' ? 'w-20 h-10 sm:w-24 sm:h-12 border border-cyber-purple rounded bg-cyber-purple/10' : ''}
-                ${element.type === 'circuit' ? 'w-16 h-6 sm:w-20 sm:h-8 border border-cyber-pink rounded-sm bg-cyber-pink/5' : ''}
-                ${element.type === 'databox' ? 'w-24 h-8 sm:w-28 sm:h-10 border border-cyber-blue rounded bg-cyber-blue/10' : ''}
-                backdrop-blur-sm
-              `}
-              style={{
-                boxShadow: isNear ? `0 0 20px rgba(0, 245, 255, ${opacity * 0.5})` : 'none'
-              }}
-            >
-              <span className="text-[10px] sm:text-xs font-mono text-white/80 px-2 truncate">
-                {element.content}
-              </span>
-            </div> */}
-          </motion.div>
-        );
-      })}
-
-      {/* Background effects */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
-        {/* Background gradients */}
-        <div className="absolute top-1/4 left-0 w-48 h-48 sm:w-64 sm:h-64 bg-gradient-to-r from-cyber-blue/20 to-transparent rounded-full filter blur-3xl -translate-y-1/2 -translate-x-1/4" />
-        <div className="absolute bottom-1/4 right-0 w-48 h-48 sm:w-64 sm:h-64 bg-gradient-to-l from-cyber-purple/20 to-transparent rounded-full filter blur-3xl translate-y-1/2 translate-x-1/4" />
-        
-        {/* Enhanced starfield background */}
-        {[...Array(150)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              width: Math.random() > 0.7 ? '2px' : '1px',
-              height: Math.random() > 0.7 ? '2px' : '1px',
-              background: Math.random() > 0.5 ? '#00f5ff' : '#8b5cf6'
-            }}
-            animate={{
-              opacity: [0.2, 1, 0.2],
-              scale: [0.5, 1.5, 0.5]
-            }}
-            transition={{
-              duration: 2 + Math.random() * 4,
-              repeat: Infinity,
-              delay: Math.random() * 3
-            }}
-          />
-        ))}
-      </div>
-      
-      <div className="container mx-auto px-4 sm:px-6 text-center relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
+          className="flex flex-col items-center justify-center text-center space-y-6 sm:space-y-8 lg:space-y-12"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
+          transition={{ duration: 1, ease: "easeOut" }}
         >
-          {/* Animated DevLaunch Typography with CLI mask effect */}
-          <div className="mb-6 sm:mb-8 w-full">
-            <motion.h1
-              className="text-3xl xs:text-6xl sm:text-7xl md:text-4xl lg:text-8xl font-bold text-white flex justify-center items-center relative"
-              style={{
-                fontFamily: "'Orbitron', 'Space Grotesk', 'Inter', sans-serif"
+          {/* DevLaunch Typography - Fixed responsive sizing */}
+          <div className="w-full max-w-4xl">
+            <motion.h1 
+              className="text-2xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-8xl font-bold text-white flex justify-center items-center"
+              style={{ 
+                fontFamily: "'Orbitron', monospace",
+                lineHeight: "1.1"
               }}
             >
               {devLaunchLetters.map((letter, index) => (
@@ -302,13 +159,16 @@ const HeroSection: React.FC = () => {
               <motion.span
                 variants={cursorVariants}
                 animate="blink"
-                className="inline-block w-1 h-8 sm:h-10 md:h-12 lg:h-14 bg-cyan-500 ml-2"
+                className="inline-block w-1 bg-cyan-500 ml-2"
+                style={{
+                  height: 'clamp(2rem, 8vw, 6rem)'
+                }}
               />
             </motion.h1>
           </div>
 
-          {/* Animated Words */}
-          <div className="h-8 sm:h-10 mb-8 sm:mb-12">
+          {/* Animated Words - Fixed height and positioning */}
+          <div className="h-12 sm:h-16 lg:h-20 flex items-center justify-center">
             <AnimatePresence mode="wait">
               <motion.p
                 key={currentWordIndex}
@@ -316,29 +176,40 @@ const HeroSection: React.FC = () => {
                 initial="hidden"
                 animate="visible"
                 exit="exit"
-                className="font-long text-lg xs:text-xl sm:text-2xl text-gray-300 max-w-3xl mx-auto text-center"
+                className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium text-gray-300 tracking-wide font-long"
               >
                 {words[currentWordIndex]}
               </motion.p>
             </AnimatePresence>
           </div>
 
-          {/* Single CTA Button with scroll effect */}
+          {/* CTA Button - Properly centered */}
           <motion.div
-            className="flex justify-center items-center"
+            className="flex justify-center items-center pt-4 sm:pt-6 lg:pt-8"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.8 }}
+            transition={{ 
+              delay: 1.2, 
+              duration: 0.8,
+              ease: "easeOut"
+            }}
           >
             <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ 
+                scale: 1.05,
+                transition: { duration: 0.2 }
+              }}
+              whileTap={{ 
+                scale: 0.95,
+                transition: { duration: 0.1 }
+              }}
             >
               <Button />
             </motion.div>
           </motion.div>
         </motion.div>
       </div>
+      
     </section>
   );
 };

@@ -3,7 +3,6 @@ import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Star, MapPin, Calendar, ExternalLink, Award, Zap, Users } from 'lucide-react';
 import { testimonials } from '@/data/testimonials';
-import ThreeBackground from '@/components/ThreeBackground';
 
 import { getExtendedClientData } from '@/data/testimonials';
 

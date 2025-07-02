@@ -468,10 +468,10 @@ const ServicesCarouselPhone = () => {
                           <div
                             key={index}
                             className={`h-2 rounded-full transition-all duration-1000 ${index === currentCard
-                                ? 'w-16 bg-white/40'
-                                : index < currentCard
-                                  ? 'w-8 bg-white/20'
-                                  : 'w-8 bg-white/10'
+                              ? 'w-16 bg-white/40'
+                              : index < currentCard
+                                ? 'w-8 bg-white/20'
+                                : 'w-8 bg-white/10'
                               }`}
                           />
                         ))}
@@ -579,8 +579,8 @@ const ServicesCarouselPhone = () => {
                 <motion.div
                   key={index}
                   className={`relative cursor-pointer transition-all duration-700 flex-shrink-0 ${index === currentService
-                      ? 'opacity-100 scale-100 border-white/20'
-                      : 'opacity-60 hover:opacity-90 scale-95'
+                    ? 'opacity-100 scale-100 border-white/20'
+                    : 'opacity-60 hover:opacity-90 scale-95'
                     }`}
                   onClick={() => {
                     setCurrentService(index);
@@ -611,8 +611,8 @@ const ServicesCarouselPhone = () => {
                         <div
                           key={cardIndex}
                           className={`h-1 flex-1 rounded-full ${index === currentService && cardIndex <= currentCard
-                              ? 'bg-white/40'
-                              : 'bg-white/10'
+                            ? 'bg-white/40'
+                            : 'bg-white/10'
                             }`}
                         />
                       ))}
@@ -629,8 +629,8 @@ const ServicesCarouselPhone = () => {
               <motion.div
                 key={index}
                 className={`w-2 h-2 rounded-full transition-all duration-500 cursor-pointer ${index === currentService
-                    ? 'bg-white/50 scale-125'
-                    : 'bg-white/20 hover:bg-white/30'
+                  ? 'bg-white/50 scale-125'
+                  : 'bg-white/20 hover:bg-white/30'
                   }`}
                 onClick={() => {
                   setCurrentService(index);

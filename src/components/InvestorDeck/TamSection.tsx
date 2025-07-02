@@ -4,46 +4,46 @@ import { FaLinkedinIn, FaGithub, FaFigma } from 'react-icons/fa';
 
 const teamMembers = [
   { 
-    name: "Akshat", 
+    name: "Akshat Srivastava", 
     role: "CEO", 
     bio: "Ex-L&T Finance, Ex-Mercor", 
-    avatar: "A",
-    social: { linkedin: "#", github: "#",}
+    avatar: "/images/akshat.jpg",
+    social: { linkedin: "https://www.linkedin.com/in/akshat-srivastava-093456264/", github: "https://github.com/LostNSeeker" }
   },
   { 
     name: "Prabaha Das", 
     role: "CTO", 
     bio: "Ex-TheReturnJourney, AI/ML expert", 
-    avatar: "P",
-    social: { linkedin: "#", github: "#", }
+    avatar: "/images/prabha.jpg",
+    social: { linkedin: "https://www.linkedin.com/in/prabaha/", github: "https://github.com/sadbro" }
   },
   { 
-    name: "Priyanshu", 
+    name: "Priyanshu Verma", 
     role: "Head of Design", 
     bio: "Design lead at top startups", 
-    avatar: "Pr",
-    social: { linkedin: "#", figma: "#" }
+    avatar: "/images/priyanshu.jpg",
+    social: { linkedin: "https://www.linkedin.com/in/priyanshu-verma00/", figma: "#" }
   },
   { 
-    name: "Harshit", 
+    name: "Harshit Paliwal", 
     role: "Lead Product Manager", 
     bio: "Ex-Facebook engineer, AI/ML expert", 
-    avatar: "H",
-    social: { linkedin: "#", github: "#"}
+    avatar: "/images/harshit.jpg",
+    social: { linkedin: "https://www.linkedin.com/in/harshit-paliwal-/"}
   },
   { 
     name: "Vikas", 
     role: "Tech Lead", 
     bio: "Design lead at top startups", 
-    avatar: "V",
-    social: { linkedin: "#", figma: "#" }
+    avatar: "/images/vikas.jpg",
+    social: { linkedin: "https://www.linkedin.com/in/vikashvk369/", github: "#" }
   },
   { 
-    name: "Akarsh", 
+    name: "Akarsh Bajpai", 
     role: "Consultant", 
     bio: "Ex-Facebook engineer, AI/ML expert", 
-    avatar: "Ak",
-    social: { linkedin: "#", github: "#"}
+    avatar: "/images/akarsh.jpg",
+    social: { linkedin: "https://www.linkedin.com/in/akarsh3053/", github: "#" }
   }
 ];
 
@@ -91,9 +91,18 @@ function TeamSection() {
                   {/* Avatar */}
                   <div className="relative mb-5">
                     <div className="absolute inset-0 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 blur-md opacity-60 animate-pulse" />
-                    <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-700 flex items-center justify-center text-xl font-bold text-violet-400">
-                      {member.avatar}
-                    </div>
+                    
+                    {(member.avatar) ? (
+                      <img
+                        src={member.avatar}
+                        alt={`${member.name} avatar`}
+                        className="relative w-20 h-20 rounded-full border border-gray-700 object-cover"
+                      />
+                    ) : (
+                      <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-700 flex items-center justify-center text-xl font-bold text-violet-400">
+                        {member.avatar}
+                      </div>
+                    )}
                   </div>
                   
                   {/* Name & Role */}
@@ -107,7 +116,7 @@ function TeamSection() {
                   
                   {/* Social Icons */}
                   <div className="flex space-x-3">
-                    {member.social.linkedin && (
+                    {member.social?.linkedin && (
                       <a 
                         href={member.social.linkedin} 
                         target="_blank" 
@@ -119,7 +128,7 @@ function TeamSection() {
                       </a>
                     )}
                     
-                    {member.social.github && (
+                    {member.social?.github && (
                       <a 
                         href={member.social.github} 
                         target="_blank" 
@@ -131,7 +140,7 @@ function TeamSection() {
                       </a>
                     )}
                     
-                    {member.social.figma && (
+                    {member.social?.figma && (
                       <a 
                         href={member.social.figma} 
                         target="_blank" 
@@ -150,7 +159,7 @@ function TeamSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 export default TeamSection;

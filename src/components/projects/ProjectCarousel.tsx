@@ -128,7 +128,7 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
     <div className="relative  py-16" ref={containerRef}>
 
       {/* Horizontal scrolling container */}
-      <div className="relative h-[70vh] w-full overflow-hidden">
+      <div className="relative h-[80vh] w-full overflow-hidden">
         <motion.div 
           ref={scrollContainerRef} 
           className="flex gap-8 absolute left-0" 
