@@ -4,7 +4,7 @@ export const testimonials = [
     role: "Founder & CEO",
     company: "BuyOneGram",
     image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "/images/mahendra.jpg",
     content:
       "DevLaunch helped us deliver a dynamic B2B and B2G platform that serves wholesalers, customers, and government buyers. The SpinTheWheel...",
     rating: 5,
@@ -23,7 +23,7 @@ export const testimonials = [
     role: "Founder & CEO",
     company: "MutaneX",
     image:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+      "/images/saiful.jpg",
     content:
       "Working with DevLaunch made a complex B2B healthcare platform feel easy. Their experience with healthcare systems ensured a smooth, compliant launch.",
     rating: 5,
@@ -42,7 +42,7 @@ export const testimonials = [
     role: "Founder & CEO",
     company: "Chiltel",
     image:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+      "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     content:
       "Our vision for Chiltel was to create a scalable, modern B2B appliance platform—and DevLaunch delivered exactly that. Their work helped us stand out in a traditional market.",
     rating: 5,

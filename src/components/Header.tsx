@@ -22,6 +22,7 @@ const Header: React.FC = () => {
     ];
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+    const closeMenu = () => setIsMenuOpen(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -95,13 +96,13 @@ const Header: React.FC = () => {
     return (
         <AnimatePresence>
             <motion.header
-                className="glass-morphism fixed top-0 left-0 w-full z-50 backdrop-blur-lg"
+                className="glass-morphism fixed top-0 left-0 w-full z-50 backdrop-blur-lg overflow-hidden"
                 variants={headerVariants}
                 initial="hidden"
                 animate={showHeader ? "visible" : "hidden"}
                 exit="hidden"
             >
-                <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+                <div className="container mx-auto px-6 py-4 flex items-center justify-between relative z-10">
                     {/* Logo */}
                     <motion.a
                         href="#"
@@ -119,7 +120,7 @@ const Header: React.FC = () => {
                             <motion.a
                                 key={link.label}
                                 href={link.href}
-                                className="text-gray-200 text-sm font-medium relative group"
+                                className="text-gray-200 text-sm font-medium relative group py-2"
                                 whileHover={{ scale: 1.1, color: '#00f5ff' }}
                                 transition={{ duration: 0.3 }}
                                 initial={{ x: -50, opacity: 0 }}
@@ -151,7 +152,7 @@ const Header: React.FC = () => {
                             <Button
                                 className="inline-flex relative items-center h-10 text-sm font-semibold px-4 bg-transparent hover:shadow-[0_0_25px_rgba(0,245,255,0.5)] transition-all duration-300 rounded-md text-white border border-cyan-400/50 hover:border-cyan-300"
                                 onClick={() => {
-                                    window.location.href = 'https://calendly.com/akshat2k24/new-meeting';
+                                    window.open('https://calendly.com/akshat2k24/new-meeting', '_blank');
                                 }}
                             >
                                 <Video className="w-4 h-4 mr-2" />
@@ -162,7 +163,7 @@ const Header: React.FC = () => {
 
                     {/* Mobile Menu Button */}
                     <button
-                        className="md:hidden text-gray-200 hover:text-cyan-400 focus:outline-none"
+                        className="md:hidden text-gray-200 hover:text-cyan-400 focus:outline-none p-2"
                         onClick={toggleMenu}
                         aria-label="Toggle menu"
                     >
@@ -170,11 +171,11 @@ const Header: React.FC = () => {
                     </button>
                 </div>
 
-                {/* Mobile Navigation */}
+                {/* Mobile Navigation*/}
                 <AnimatePresence>
                     {isMenuOpen && (
                         <motion.nav
-                            className="md:hidden bg-gray-900/90 backdrop-blur-lg py-6 border-t border-cyan-500/30"
+                            className="md:hidden backdrop-blur-lg py-6 border-t border-cyan-500/30 relative z-10"
                             variants={menuVariants}
                             initial="closed"
                             animate="open"
@@ -194,18 +195,19 @@ const Header: React.FC = () => {
                                                 duration: 0.3 
                                             } 
                                         }}
+                                        className="w-full text-center"
                                     >
                                         <a
                                             href={link.href}
-                                            className="text-gray-200 text-base font-medium hover:text-cyan-400 transition-colors duration-300"
-                                            onClick={toggleMenu}
+                                            className="text-gray-200 text-base font-medium hover:text-cyan-400 transition-colors duration-300 inline-block py-3 w-full"
+                                            onClick={closeMenu} // Close menu when nav item clicked
                                         >
                                             {link.label}
                                         </a>
                                     </motion.li>
                                 ))}
                                 <motion.li 
-                                    className="list-none"
+                                    className="list-none w-full px-8"
                                     initial={{ y: -20, opacity: 0 }}
                                     animate={{ 
                                         y: 0, 
@@ -217,10 +219,10 @@ const Header: React.FC = () => {
                                     }}
                                 >
                                     <Button
-                                        className="h-10 text-sm font-semibold bg-gradient-to-r from-cyan-500 to-purple-500 hover:shadow-[0_0_25px_rgba(0,245,255,0.5)] transition-all duration-300"
+                                        className="h-12 w-full text-sm font-semibold bg-gradient-to-r from-cyan-500 to-purple-500 hover:shadow-[0_0_25px_rgba(0,245,255,0.5)] transition-all duration-300"
                                         onClick={() => {
-                                            window.location.href = 'https://calendly.com/akshat2k24/new-meeting';
-                                            toggleMenu();
+                                            window.open('https://calendly.com/akshat2k24/new-meeting', '_blank');
+                                            closeMenu(); // Close menu when button clicked
                                         }}
                                     >
                                         <Video className="w-4 h-4 mr-2" />
@@ -233,8 +235,8 @@ const Header: React.FC = () => {
                 </AnimatePresence>
 
                 {/* Background Decorations */}
-                <div className="absolute top-0 left-0 w-64 h-64 bg-gradient-to-r from-cyan-500/10 to-transparent rounded-full blur-3xl" />
-                <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-l from-purple-500/10 to-transparent rounded-full blur-3xl" />
+                <div className="absolute top-0 left-0 w-64 h-64 bg-gradient-to-r from-cyan-500/10 to-transparent rounded-full blur-3xl z-0" />
+                <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-l from-purple-500/10 to-transparent rounded-full blur-3xl z-0" />
             </motion.header>
         </AnimatePresence>
     );

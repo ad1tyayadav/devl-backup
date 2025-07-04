@@ -3,45 +3,45 @@ import { motion } from 'framer-motion';
 import { FaLinkedinIn, FaGithub, FaFigma } from 'react-icons/fa';
 
 const teamMembers = [
-  { 
-    name: "Akshat Srivastava", 
-    role: "CEO", 
-    bio: "Ex-L&T Finance, Ex-Mercor", 
+  {
+    name: "Akshat Srivastava",
+    role: "CEO",
+    bio: "Ex-L&T Finance, Ex-Mercor",
     avatar: "/images/akshat.jpg",
     social: { linkedin: "https://www.linkedin.com/in/akshat-srivastava-093456264/", github: "https://github.com/LostNSeeker" }
   },
-  { 
-    name: "Prabaha Das", 
-    role: "CTO", 
-    bio: "Ex-TheReturnJourney, AI/ML expert", 
+  {
+    name: "Prabaha Das",
+    role: "CTO",
+    bio: "Ex-TheReturnJourney, AI/ML expert",
     avatar: "/images/prabha.jpg",
     social: { linkedin: "https://www.linkedin.com/in/prabaha/", github: "https://github.com/sadbro" }
   },
-  { 
-    name: "Priyanshu Verma", 
-    role: "Head of Design", 
-    bio: "Design lead at top startups", 
+  {
+    name: "Priyanshu Verma",
+    role: "Head of Product",
+    bio: "Design lead at top startups",
     avatar: "/images/priyanshu.jpg",
     social: { linkedin: "https://www.linkedin.com/in/priyanshu-verma00/", figma: "#" }
   },
-  { 
-    name: "Harshit Paliwal", 
-    role: "Lead Product Manager", 
-    bio: "Ex-Facebook engineer, AI/ML expert", 
+  {
+    name: "Harshit Paliwal",
+    role: "Lead Product Manager",
+    bio: "Ex-Facebook engineer, AI/ML expert",
     avatar: "/images/harshit.jpg",
-    social: { linkedin: "https://www.linkedin.com/in/harshit-paliwal-/"}
+    social: { linkedin: "https://www.linkedin.com/in/harshit-paliwal-/" }
   },
-  { 
-    name: "Vikas", 
-    role: "Tech Lead", 
-    bio: "Design lead at top startups", 
+  {
+    name: "Vikash Chaudhary",
+    role: "Tech Lead",
+    bio: "Lead tech at top startups",
     avatar: "/images/vikas.jpg",
     social: { linkedin: "https://www.linkedin.com/in/vikashvk369/", github: "#" }
   },
-  { 
-    name: "Akarsh Bajpai", 
-    role: "Consultant", 
-    bio: "Ex-Facebook engineer, AI/ML expert", 
+  {
+    name: "Akarsh Bajpai",
+    role: "Consultant",
+    bio: "Ex-Facebook engineer, AI/ML expert",
     avatar: "/images/akarsh.jpg",
     social: { linkedin: "https://www.linkedin.com/in/akarsh3053/", github: "#" }
   }
@@ -73,13 +73,13 @@ function TeamSection() {
               key={index}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ 
-                duration: 0.6, 
+              transition={{
+                duration: 0.6,
                 delay: index * 0.1,
                 type: "spring",
                 stiffness: 120
               }}
-              whileHover={{ 
+              whileHover={{
                 y: -10,
                 transition: { duration: 0.3 }
               }}
@@ -91,7 +91,7 @@ function TeamSection() {
                   {/* Avatar */}
                   <div className="relative mb-5">
                     <div className="absolute inset-0 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 blur-md opacity-60 animate-pulse" />
-                    
+
                     {(member.avatar) ? (
                       <img
                         src={member.avatar}
@@ -104,22 +104,22 @@ function TeamSection() {
                       </div>
                     )}
                   </div>
-                  
+
                   {/* Name & Role */}
                   <h3 className="text-xl font-bold text-white mb-1">{member.name}</h3>
                   <p className="text-violet-400 font-medium mb-3 text-sm">{member.role}</p>
-                  
+
                   {/* Bio */}
                   <p className="text-gray-400 mb-4 text-sm leading-relaxed max-w-xs">
                     {member.bio}
                   </p>
-                  
+
                   {/* Social Icons */}
                   <div className="flex space-x-3">
                     {member.social?.linkedin && (
-                      <a 
-                        href={member.social.linkedin} 
-                        target="_blank" 
+                      <a
+                        href={member.social.linkedin}
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="p-2 rounded-full bg-gray-800 text-gray-400 hover:bg-violet-500 hover:text-white transition-all duration-300"
                         aria-label={`${member.name} LinkedIn`}
@@ -127,11 +127,11 @@ function TeamSection() {
                         <FaLinkedinIn size={14} />
                       </a>
                     )}
-                    
+
                     {member.social?.github && (
-                      <a 
-                        href={member.social.github} 
-                        target="_blank" 
+                      <a
+                        href={member.social.github}
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="p-2 rounded-full bg-gray-800 text-gray-400 hover:bg-violet-500 hover:text-white transition-all duration-300"
                         aria-label={`${member.name} GitHub`}
@@ -139,11 +139,11 @@ function TeamSection() {
                         <FaGithub size={14} />
                       </a>
                     )}
-                    
+
                     {member.social?.figma && (
-                      <a 
-                        href={member.social.figma} 
-                        target="_blank" 
+                      <a
+                        href={member.social.figma}
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="p-2 rounded-full bg-gray-800 text-gray-400 hover:bg-violet-500 hover:text-white transition-all duration-300"
                         aria-label={`${member.name} Figma`}

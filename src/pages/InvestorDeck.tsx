@@ -6,9 +6,10 @@ import ProblemSection from '@/components/InvestorDeck/ProblemSection';
 import SolutionSection from '@/components/InvestorDeck/SolutionSection';
 import BusinessModel from '@/components/InvestorDeck/BusinessModel';
 import TractionSection from '@/components/InvestorDeck/TractionSection';
-import ThreeBackground from '@/components/ThreeBackground';
 import RoadmapSection from '@/components/InvestorDeck/RoadmapSection';
 import TeamSection from '@/components/InvestorDeck/TamSection';
+import { AnimatedGrid } from '@/components/ui/AnimatedGrid';
+import { FloatingParticles } from '@/components/ui/FloatingParticles';
 
 const InvestorDeck = () => {
   const containerRef = useRef(null);
@@ -23,53 +24,8 @@ const InvestorDeck = () => {
   }, []);
 
 
-  // Floating particles component
-  const FloatingParticles = () => {
-    return (
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-cyan-400 rounded-full opacity-30"
-            animate={{
-              x: [0, Math.random() * 100 - 50],
-              y: [0, Math.random() * 100 - 50],
-              opacity: [0.3, 0.7, 0.3]
-            }}
-            transition={{
-              duration: Math.random() * 10 + 10,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`
-            }}
-          />
-        ))}
-      </div>
-    );
-  };
-
-  // Animated background grid
-  const AnimatedGrid = () => {
-    return (
-      <div className="fixed inset-0 opacity-20">
-        <svg width="100%" height="100%" className="absolute inset-0">
-          <defs>
-            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(6, 182, 212, 0.1)" strokeWidth="1"/>
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#grid)" />
-        </svg>
-      </div>
-    );
-  };
-
   return (
     <div className="min-h-screen bg-transparent text-white overflow-x-hidden relative" style={{ scrollBehavior: 'smooth' }}>
-    {/* <ThreeBackground /> */}
     <FloatingParticles />
     <AnimatedGrid />
       
@@ -224,7 +180,7 @@ const InvestorDeck = () => {
                   className="bg-black/40 backdrop-blur-xl p-6 sm:p-8 rounded-3xl border border-white/10 hover:border-cyan-400/30 transition-all duration-500"
                 >
                   <h3 className="text-xl sm:text-2xl font-bold text-white mb-6 sm:mb-8 bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-                    Investment Opportunity: $100K
+                    Investment Opportunity: $100K for 8%
                   </h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">

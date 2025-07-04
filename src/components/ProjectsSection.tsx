@@ -1,8 +1,8 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ProjectModal } from './projects/ProjectModal';
-import { ProjectCarousel } from './projects/ProjectCarousel';
+import ProjectCarousel from './projects/ProjectCarousel';
 import { ProjectTypeSwitch } from './projects/ProjectTypeSwitch';
 import GlowBtn from './ui/GlowBtn';
 
@@ -162,6 +162,7 @@ const ProjectsSection: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isHovered, setIsHovered] = useState(false);
+  const carouselRef = useRef<any>(null);
 
   const getFilteredProjects = () => {
     return projectsData.filter(project => project.type === projectType);
@@ -289,6 +290,7 @@ const ProjectsSection: React.FC = () => {
             >
               <ProjectCarousel
                 projects={getFilteredProjects()}
+                ref={carouselRef}
                 onProjectClick={openModal}
                 isHovered={isHovered}
                 onMouseEnter={() => setIsHovered(true)}
@@ -307,7 +309,7 @@ const ProjectsSection: React.FC = () => {
             viewport={{ once: true }}
           >
             <div className="relative group inline-block">
-              <GlowBtn to={"/"} label='View All Project' />
+              <GlowBtn to={"/all-projects"} label='View All Project' />
             </div>
           </motion.div>
         </div>

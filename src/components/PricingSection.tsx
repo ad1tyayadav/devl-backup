@@ -4,27 +4,29 @@ import { Bot, Blocks, Smartphone, Palette, Crown, ArrowRight } from 'lucide-reac
 import { Code, Rocket, Cpu, BrainCircuit,} from "lucide-react"; 
 
 const PricingSection = () => {
+  // Generate random last 4 digits for each card
+  const generateLastFour = () => {
+    return Math.floor(1000 + Math.random() * 9000).toString();
+  };
+
   const services = [
     {
       title: "Basic Development",
-      icon: Code, // Or use LayoutGrid/Layers for basic services
+      icon: Code,
       moreFeatures: [
-        "E-commerce platforms (BuyOneGram)",
-        "CRM solutions (MananCRM, MahaShakti)",
+        "E-commerce platforms",
+        "CRM solutions",
         "Food delivery systems",
         "Landing page development",
-        "Service apps (Chiltel, AgsWonderWorld)"
+        "Service apps (Chiltel)"
       ],
-      price: "Starting from $799",
+      price: "Starting from ₹89,999*",
       tag: "BASIC",
-      cardNumber: "3782 822463 10005",
-      cardHolder: "PREMIUM MEMBER",
-      expiration: "12/30",
-      securityCode: "1234"
+      lastFour: generateLastFour()
     },
     {
       title: "MVP Development",
-      icon: Rocket, // Flag also works for launch-focused
+      icon: Rocket,
       moreFeatures: [
         "Equity-based partnerships",
         "Rapid prototyping (Chiltel, Shaswat)",
@@ -32,16 +34,13 @@ const PricingSection = () => {
         "Energy sector MVPs (EnerzyFlow)",
         "Investor-ready products"
       ],
-      price: "Equity-Based", // Or "Starting from $1,499" if hybrid
+      price: "Equity-Based*",
       tag: "MVPs",
-      cardNumber: "3742 456789 12345",
-      cardHolder: "PREMIUM MEMBER",
-      expiration: "03/29",
-      securityCode: "5678"
+      lastFour: generateLastFour()
     },
     {
       title: "Scalable Solutions",
-      icon: Cpu, // Or ArrowUpCircle for growth
+      icon: Cpu,
       moreFeatures: [
         "Platform development (MutaneX)",
         "Community apps (PujaPathSeva)",
@@ -49,16 +48,13 @@ const PricingSection = () => {
         "Enterprise suites (EnerzyFlow Main)",
         "Custom integrations"
       ],
-      price: "Starting from $1,999",
+      price: "Starting from ₹1,79,999*",
       tag: "INTERMEDIATE",
-      cardNumber: "3700 123456 78901",
-      cardHolder: "PREMIUM MEMBER",
-      expiration: "08/31",
-      securityCode: "9012"
+      lastFour: generateLastFour()
     },
     {
       title: "Advanced Tech",
-      icon: BrainCircuit, // Or Blocks for blockchain focus
+      icon: BrainCircuit,
       moreFeatures: [
         "Blockchain wallets & bridges",
         "AI agents (BubAI)",
@@ -66,14 +62,15 @@ const PricingSection = () => {
         "Ecosystem projects (Prabaha)",
         "Devlaunch AI/SEO tools"
       ],
-      price: "Starting from $2,499",
+      price: "Starting from ₹3,49,999*",
       tag: "ADVANCED",
-      cardNumber: "3767 891234 56789",
-      cardHolder: "PREMIUM MEMBER",
-      expiration: "05/28",
-      securityCode: "3456"
+      lastFour: generateLastFour()
     }
   ];
+
+  const handleActivate = () => {
+    window.open("https://calendly.com/akshat2k24/new-meeting", "_blank");
+  };
 
   return (
     <section id="pricing" className="py-20 relative overflow-hidden bg-transparent">
@@ -160,25 +157,13 @@ const PricingSection = () => {
                       </div>
                     </div>
 
-                    {/* Card Number */}
+                    {/* Card Number - Showing only last 4 digits */}
                     <div className="absolute top-44 left-6 right-6">
                       <div className="text-gray-200 font-mono text-xl tracking-[0.3em] mb-2 font-medium drop-shadow-lg text-center"
                         style={{
                           textShadow: '0 2px 4px rgba(0,0,0,0.7), 0 0 10px rgba(255,255,255,0.1)'
                         }}>
-                        {service.cardNumber}
-                      </div>
-                    </div>
-
-                    {/* Cardholder and Expiration */}
-                    <div className="absolute bottom-24 left-6 right-6 flex justify-between">
-                      <div>
-                        <div className="text-gray-400 text-xs uppercase tracking-wider">Card Holder</div>
-                        <div className="text-white text-sm font-medium">{service.cardHolder}</div>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-gray-400 text-xs uppercase tracking-wider">Expires</div>
-                        <div className="text-white text-sm font-medium">{service.expiration}</div>
+                        XXXX XXXX XXXX {service.lastFour}
                       </div>
                     </div>
 
@@ -190,7 +175,6 @@ const PricingSection = () => {
                           <div className="w-8 h-8 bg-gradient-to-br from-gray-300 via-gray-200 to-gray-400 rounded-md flex items-center justify-center shadow-[0_6px_15px_rgba(0,0,0,0.4),0_0_15px_rgba(255,255,255,0.15)_inset] border border-gray-300/30">
                             <div className="w-6 h-4 bg-gradient-to-br from-gray-100 to-gray-300 rounded shadow-[0_2px_4px_rgba(0,0,0,0.3)_inset]" />
                           </div>
-                          {/* <ContactlessPayment className="text-amber-400" size={24} /> */}
                         </div>
                       </div>
                     </div>
@@ -212,25 +196,12 @@ const PricingSection = () => {
                   {/* Back of Card */}
                   <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] bg-gradient-to-br from-gray-900 via-black to-gray-800 rounded-3xl overflow-hidden shadow-[0_35px_70px_rgba(0,0,0,0.9),0_0_120px_rgba(255,255,255,0.08)_inset] border-2 border-gray-600/30">
 
-                    {/* Magnetic strip */}
-                    <div className="h-12 bg-black w-full mt-2" />
-
-                    {/* Security code */}
-                    <div className="flex justify-end mt- mr-8">
-                      <div className="text-gray-400 text-xs mr-2">SECURITY CODE</div>
-                      <div className="bg-white px-3 py-1 rounded-sm">
-                        <span className="text-black font-mono font-bold">{service.securityCode}</span>
-                      </div>
-                    </div>
-
+                    {/* Black strip at the top */}
+                    <div className="h-12 bg-black w-full mt-4" />
 
                     {/* Extended Features */}
-                    <div className="px-8">
-                      <h3 className="text-white font-long font-bold text-xl mb-2 drop-shadow-lg text-center">
-                        {service.title}
-                      </h3>
-
-                      <div className="space-y-3  max-h-40 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-amber-400/30 scrollbar-track-gray-800/50">
+                    <div className="px-8 pt-4">
+                      <div className="space-y-3 font-bold max-h-40 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-amber-400/30 scrollbar-track-gray-800/50">
                         {service.moreFeatures.map((feature, featureIndex) => (
                           <div
                             key={featureIndex}
@@ -250,17 +221,13 @@ const PricingSection = () => {
                       </div>
 
                       <motion.button
+                        onClick={handleActivate}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         className="px-6 py-3 bg-gradient-to-br from-amber-400 via-amber-300 to-amber-500 text-black font-bold text-sm rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.6),0_0_30px_rgba(255,255,255,0.1)_inset] border border-amber-300/20 hover:shadow-[0_15px_35px_rgba(0,0,0,0.7),0_0_40px_rgba(255,255,255,0.15)_inset] transition-all duration-300 flex items-center"
                       >
                         ACTIVATE <ArrowRight className="ml-2" size={16} />
                       </motion.button>
-                    </div>
-
-                    {/* Disclaimer text */}
-                    <div className="absolute bottom-2 left-0 right-0 text-center">
-                      <div className="text-gray-500 text-xs">This card is the property of Premium Digital Services and must be surrendered upon request.</div>
                     </div>
 
                     {/* Premium corner accents */}
@@ -279,4 +246,4 @@ const PricingSection = () => {
   );
 };
 
-export default PricingSection;
+export default PricingSection;  

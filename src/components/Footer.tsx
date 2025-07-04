@@ -1,6 +1,5 @@
 import React from 'react';
 import { Instagram, Linkedin, Mail } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 
 interface FooterLink {
     label: string;
@@ -22,8 +21,8 @@ const Footer: React.FC = () => {
     ];
 
     return (
-        <footer className="relative glass-morphism py-12 border-t border-cyan-500/20">
-            <div className="container mx-auto px-6">
+        <footer className="relative glass-morphism py-12 border-t border-cyan-500/20 overflow-hidden">
+            <div className="container mx-auto px-6 relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
                     {/* Brand Section */}
                     <div className="space-y-4">
@@ -41,7 +40,7 @@ const Footer: React.FC = () => {
                                 <li key={link.label}>
                                     <a
                                         href={link.href}
-                                        className="text-gray-300 hover:text-cyan-400 transition-colors duration-300"
+                                        className="text-gray-300 hover:text-cyan-400 transition-colors duration-300 inline-block py-1"
                                     >
                                         {link.label}
                                     </a>
@@ -58,7 +57,7 @@ const Footer: React.FC = () => {
                                 <a
                                     key={link.label}
                                     href={link.href}
-                                    className="text-gray-300 hover:text-cyan-400 transition-colors duration-300"
+                                    className="text-gray-300 hover:text-cyan-400 transition-colors duration-300 p-2"
                                     aria-label={link.label}
                                 >
                                     {link.label === 'Instagram' && <Instagram className="w-6 h-6" />}
@@ -78,9 +77,9 @@ const Footer: React.FC = () => {
                 </div>
             </div>
 
-            {/* Background Decorations */}
-            <div className="absolute top-0 left-0 w-64 h-64 bg-gradient-to-r from-cyber-blue/10 to-transparent rounded-full blur-3xl" />
-            <div className="absolute bottom-0 right-0 w-80 h-80 bg-gradient-to-l from-cyber-purple/10 to-transparent rounded-full blur-3xl" />
+            {/* Background Decorations - Moved behind content */}
+            <div className="absolute top-0 left-0 w-64 h-64 bg-gradient-to-r from-cyber-blue/10 to-transparent rounded-full blur-3xl z-0" />
+            <div className="absolute bottom-0 right-0 w-80 h-80 bg-gradient-to-l from-cyber-purple/10 to-transparent rounded-full blur-3xl z-0" />
         </footer>
     );
 };

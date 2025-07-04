@@ -3,8 +3,9 @@ import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Star, MapPin, Calendar, ExternalLink, Award, Zap, Users } from 'lucide-react';
 import { testimonials } from '@/data/testimonials';
-
 import { getExtendedClientData } from '@/data/testimonials';
+import { FloatingParticles } from '@/components/ui/FloatingParticles';
+import { AnimatedGrid } from '@/components/ui/AnimatedGrid';
 
 const ClientPage: React.FC = () => {
   const { name } = useParams<{ name: string }>();
@@ -17,50 +18,6 @@ const ClientPage: React.FC = () => {
 useEffect(() => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }, []);
-
-  // Floating particles component
-  const FloatingParticles = () => {
-    return (
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-cyan-400 rounded-full opacity-30"
-            animate={{
-              x: [0, Math.random() * 100 - 50],
-              y: [0, Math.random() * 100 - 50],
-              opacity: [0.3, 0.7, 0.3]
-            }}
-            transition={{
-              duration: Math.random() * 10 + 10,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`
-            }}
-          />
-        ))}
-      </div>
-    );
-  };
-
-  // Animated background grid
-  const AnimatedGrid = () => {
-    return (
-      <div className="fixed inset-0 opacity-20">
-        <svg width="100%" height="100%" className="absolute inset-0">
-          <defs>
-            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(6, 182, 212, 0.1)" strokeWidth="1"/>
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#grid)" />
-        </svg>
-      </div>
-    );
-  };
 
   if (!client) {
     return (

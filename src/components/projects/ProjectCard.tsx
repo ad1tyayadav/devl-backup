@@ -27,9 +27,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
         <CardBody
           className="
             relative group/card border bg-transparent rounded-xl
-            p-4 sm:p-6
+            p-3 sm:p-6
             w-full
-            min-h-[450px] sm:min-h-[500px] lg:min-h-[540px]
+            min-h-[320px] sm:min-h-[500px] lg:min-h-[540px]
             flex flex-col justify-between
             hover:shadow-xl transition-shadow
           "
@@ -37,7 +37,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
           {/* Title */}
           <CardItem
             translateZ="60"
-            className="text-white text-lg sm:text-xl font-bold font-long pointer-events-none"
+            className="text-white text-base sm:text-lg md:text-xl font-bold font-long pointer-events-none"
           >
             {project.title}
           </CardItem>
@@ -46,14 +46,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
           <CardItem
             translateZ="40"
             as="p"
-            className="text-neutral-300 text-sm sm:text-base mt-2 font-sora line-clamp-3 pointer-events-none"
+            className="text-neutral-300 text-xs sm:text-sm md:text-base mt-1 sm:mt-2 font-sora line-clamp-3 pointer-events-none"
           >
             {project.description}
           </CardItem>
 
           {/* Image */}
-          <CardItem translateZ="100" className="mt-4 flex-grow pointer-events-none">
-            <div className="w-full aspect-[4/3] sm:aspect-[16/10] overflow-hidden rounded-xl shadow-lg group-hover/card:shadow-cyan-500/30">
+          <CardItem translateZ="100" className="mt-2 sm:mt-4 flex-grow pointer-events-none">
+            <div className="w-full aspect-[4/3] overflow-hidden rounded-xl shadow-lg group-hover/card:shadow-cyan-500/30">
               <img
                 src={project.image}
                 alt={project.title}
@@ -63,17 +63,17 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
           </CardItem>
 
           {/* Tags */}
-          <div className="mt-4 flex flex-wrap gap-2 pointer-events-none">
+          <div className="mt-2 sm:mt-4 flex flex-wrap gap-1.5 pointer-events-none">
             {project.tags.slice(0, 3).map((tag, index) => (
               <Badge
                 key={index}
-                className="bg-gray-700/50 border border-gray-600 text-gray-300 text-xs px-2 py-1"
+                className="bg-gray-700/50 border border-gray-600 text-gray-300 text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1"
               >
                 {tag}
               </Badge>
             ))}
             {project.tags.length > 3 && (
-              <Badge className="bg-gray-700/50 border border-gray-600 text-gray-300 text-xs px-2 py-1">
+              <Badge className="bg-gray-700/50 border border-gray-600 text-gray-300 text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1">
                 +{project.tags.length - 3}
               </Badge>
             )}
@@ -82,7 +82,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
           {/* CTA */}
           <CardItem
             translateZ="20"
-            className="text-cyan-400 text-sm text-center mt-4 pointer-events-none"
+            className="text-cyan-400 text-xs sm:text-sm text-center mt-2 sm:mt-4 pointer-events-none"
           >
             <span className="hidden sm:inline">Click to explore details</span>
             <span className="sm:hidden">Tap to explore</span>

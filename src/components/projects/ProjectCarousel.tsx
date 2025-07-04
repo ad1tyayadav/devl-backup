@@ -1,6 +1,12 @@
-import React, { useRef, useEffect } from 'react';
-import { motion, useAnimation } from 'framer-motion';
-import { ProjectCard } from './ProjectCard';
+import React, {
+  useRef,
+  useEffect,
+  useState,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
+import { motion, useAnimation, PanInfo } from "framer-motion";
+import { ProjectCard } from "./ProjectCard";
 
 interface Project {
   id: number;
@@ -9,7 +15,7 @@ interface Project {
   image: string;
   tags: string[];
   featured: boolean;
-  type: 'client' | 'devlaunch';
+  type: "client" | "devlaunch";
   liveLink?: string;
   githubLink?: string;
 }
@@ -17,139 +23,221 @@ interface Project {
 interface ProjectCarouselProps {
   projects: Project[];
   onProjectClick: (project: Project) => void;
-  isHovered: boolean;
-  onMouseEnter: () => void;
-  onMouseLeave: () => void;
 }
 
-export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
-  projects,
-  onProjectClick,
-  isHovered,
-  onMouseEnter,
-  onMouseLeave
-}) => {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const controls = useAnimation();
-  const animationRef = useRef<{ currentX: number; isPaused: boolean }>({
-    currentX: 0,
-    isPaused: false
-  });
-  const [isManualScrolling, setIsManualScrolling] = React.useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
+export interface ProjectCarouselHandle {
+  handleCloseModal: () => void;
+}
 
-  // Create seamless loop by duplicating projects 3 times
-  const duplicatedProjects = [...projects, ...projects, ...projects];
+const ProjectCarousel = forwardRef<ProjectCarouselHandle, ProjectCarouselProps>(
+  ({ projects, onProjectClick }, ref) => {
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const controls = useAnimation();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [startX, setStartX] = useState(0);
+    const [isDragging, setIsDragging] = useState(false);
+    const [maxIndex, setMaxIndex] = useState(0);
 
-  useEffect(() => {
-    const startAnimation = () => {
-      if (animationRef.current.isPaused || isManualScrolling || duplicatedProjects.length === 0) return;
-      
-      const cardWidth = 420;
-      const gap = 32;
-      const totalCardWidth = cardWidth + gap;
-      const singleSetWidth = projects.length * totalCardWidth;
+    // Responsive card width
+    const cardWidth = isMobile ? 300 : 420;
+    const gap = 32;
+    const cardStep = cardWidth + gap;
 
-      const startX = animationRef.current.currentX;
-      const endX = startX - singleSetWidth;
+    useImperativeHandle(ref, () => ({
+      handleCloseModal: () => {
+        setIsModalOpen(false);
+      },
+    }));
 
+    // Mobile check
+    useEffect(() => {
+      const checkIfMobile = () => {
+        setIsMobile(window.innerWidth <= 768);
+      };
+
+      checkIfMobile();
+      window.addEventListener("resize", checkIfMobile);
+      return () => window.removeEventListener("resize", checkIfMobile);
+    }, []);
+
+    // Calculate maxIndex for navigation limits
+    useEffect(() => {
+      const updateMaxIndex = () => {
+        const containerWidth = containerRef.current?.offsetWidth || 0;
+        const visibleCards = Math.floor(containerWidth / cardStep);
+        const max = Math.max(0, projects.length - visibleCards);
+        setMaxIndex(max);
+        if (currentIndex > max) setCurrentIndex(max);
+      };
+
+      updateMaxIndex();
+      window.addEventListener("resize", updateMaxIndex);
+      return () => window.removeEventListener("resize", updateMaxIndex);
+    }, [projects.length, cardStep, currentIndex]);
+
+    useEffect(() => {
+      const newX = -currentIndex * cardStep;
       controls.start({
-        x: endX,
-        transition: {
-          duration: 30, // Fixed duration for consistent speed
-          ease: "linear"
-        }
-      }).then(() => {
-        if (!animationRef.current.isPaused && !isManualScrolling) {
-          // Reset position to equivalent content
-          const resetPosition = animationRef.current.currentX + singleSetWidth;
-          animationRef.current.currentX = resetPosition - singleSetWidth;
-          
-          controls.set({ x: resetPosition - singleSetWidth });
-          startAnimation();
-        }
+        x: newX,
+        transition: { duration: 0.5, ease: "easeInOut" },
       });
+    }, [currentIndex, controls, cardStep]);
+
+    const handleProjectClick = (project: Project) => {
+      setIsModalOpen(true);
+      onProjectClick(project);
     };
 
-    if (!isHovered && !isManualScrolling && duplicatedProjects.length > 0) {
-      animationRef.current.isPaused = false;
-      startAnimation();
-    } else {
-      animationRef.current.isPaused = true;
-      controls.stop();
-    }
-  }, [isHovered, isManualScrolling, controls, duplicatedProjects.length, projects.length]);
+    const handleDragStart = (
+      e: MouseEvent | TouchEvent | PointerEvent
+    ): void => {
+      if (isMobile) {
+        setIsDragging(true);
+        setStartX(
+          "touches" in e
+            ? e.touches[0].clientX
+            : "clientX" in e
+            ? e.clientX
+            : 0
+        );
+      }
+    };
 
-  const handleMouseEnter = () => {
-    const element = scrollContainerRef.current;
-    if (element) {
-      const transform = window.getComputedStyle(element).transform;
-      if (transform && transform !== 'none') {
-        const matrix = transform.match(/matrix\(([^)]+)\)/);
-        if (matrix) {
-          const values = matrix[1].split(',').map(parseFloat);
-          animationRef.current.currentX = values[4] || animationRef.current.currentX;
+    const handleDragEnd = (
+      e: MouseEvent | TouchEvent | PointerEvent,
+      info: PanInfo
+    ): void => {
+      if (!isMobile || !isDragging) return;
+
+      setIsDragging(false);
+      const endX =
+        "touches" in e
+          ? e.changedTouches[0].clientX
+          : "clientX" in e
+          ? e.clientX
+          : 0;
+      const diff = startX - endX;
+
+      // Only allow swipe if it would stay within bounds
+      if (Math.abs(diff) > 50) {
+        if (diff > 0 && currentIndex < maxIndex) {
+          scrollRight();
+        } else if (diff < 0 && currentIndex > 0) {
+          scrollLeft();
         }
       }
-    }
-    onMouseEnter();
-  };
+    };
 
-  const scrollLeft = () => {
-    setIsManualScrolling(true);
-    const newX = animationRef.current.currentX + 450;
-    animationRef.current.currentX = newX;
-    controls.start({
-      x: newX,
-      transition: { duration: 0.5, ease: "easeOut" }
-    }).then(() => {
-      setTimeout(() => setIsManualScrolling(false), 1000);
-    });
-  };
+    const scrollLeft = () => {
+      setCurrentIndex((prev) => Math.max(0, prev - 1));
+    };
 
-  const scrollRight = () => {
-    setIsManualScrolling(true);
-    const cardWidth = 420;
-    const gap = 32;
-    const totalCardWidth = cardWidth + gap;
-    const singleSetWidth = projects.length * totalCardWidth;
-    const minX = -(singleSetWidth * 2) + totalCardWidth;
-    const newX = Math.max(animationRef.current.currentX - 450, minX);
-    animationRef.current.currentX = newX;
-    controls.start({
-      x: newX,
-      transition: { duration: 0.5, ease: "easeOut" }
-    }).then(() => {
-      setTimeout(() => setIsManualScrolling(false), 1000);
-    });
-  };
+    const scrollRight = () => {
+      setCurrentIndex((prev) => Math.min(maxIndex, prev + 1));
+    };
 
-  return (
-    <div className="relative  py-16" ref={containerRef}>
+    const isAtStart = currentIndex === 0;
+    const isAtEnd = currentIndex >= maxIndex;
 
-      {/* Horizontal scrolling container */}
-      <div className="relative h-[80vh] w-full overflow-hidden">
-        <motion.div 
-          ref={scrollContainerRef} 
-          className="flex gap-8 absolute left-0" 
-          animate={controls}
-          initial={{ x: 0 }}
-          style={{
-            width: `${duplicatedProjects.length * 420 + (duplicatedProjects.length - 1) * 32}px`
-          }} 
-          onMouseEnter={handleMouseEnter} 
-          onMouseLeave={onMouseLeave}
-        >
-          {duplicatedProjects.map((project, index) => (
-            <ProjectCard
-              key={`${project.id}-${project.type}-${index}`}
-              project={project}
-              index={index}
-              onClick={() => onProjectClick(project)}
-            />
-          ))}
-        </motion.div>
+    // Calculate dynamic drag constraints
+    const getDragConstraints = () => {
+      if (maxIndex === 0) return { left: 0, right: 0 };
+      
+      return {
+        left: -maxIndex * cardStep,
+        right: 0,
+      };
+    };
+
+    return (
+      <div className="relative py-16" ref={containerRef}>
+        {/* Navigation Buttons (only for non-mobile) */}
+        {!isMobile && (
+          <div className="absolute top-1/2 left-4 right-4 flex justify-between z-10 pointer-events-none sm:pointer-events-auto">
+            <button
+              onClick={scrollLeft}
+              disabled={isAtStart}
+              className={`bg-white bg-opacity-80 hover:bg-opacity-100 text-black rounded-full p-2 shadow-lg transition-all ${
+                isAtStart ? "opacity-40 cursor-not-allowed" : ""
+              }`}
+              aria-label="Previous project"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+            <button
+              onClick={scrollRight}
+              disabled={isAtEnd}
+              className={`bg-white bg-opacity-80 hover:bg-opacity-100 text-black rounded-full p-2 shadow-lg transition-all ${
+                isAtEnd ? "opacity-40 cursor-not-allowed" : ""
+              }`}
+              aria-label="Next project"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+          </div>
+        )}
+
+        {/* Scrolling Cards */}
+        <div className="relative h-[80vh] w-full overflow-hidden">
+          <motion.div
+            ref={scrollContainerRef}
+            className="flex gap-8 px-4 sm:px-0"
+            animate={controls}
+            initial={{ x: 0 }}
+            drag={isMobile ? "x" : false}
+            dragConstraints={getDragConstraints()} // Dynamic constraints
+            dragElastic={0.05} // Reduced elastic effect
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+            style={{
+              width: `${
+                projects.length * cardWidth + (projects.length - 1) * gap
+              }px`,
+            }}
+          >
+            {projects.map((project, index) => (
+              <ProjectCard
+                key={`${project.id}-${project.type}-${index}`}
+                project={project}
+                index={index}
+                onClick={() => handleProjectClick(project)}
+                isActive={index === currentIndex}
+              />
+            ))}
+          </motion.div>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+);
+
+export default ProjectCarousel;

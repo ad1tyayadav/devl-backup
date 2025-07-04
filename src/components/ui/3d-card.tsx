@@ -45,11 +45,12 @@ export const CardContainer = ({
     setIsMouseEntered(false);
     containerRef.current.style.transform = `rotateY(0deg) rotateX(0deg)`;
   };
+  
   return (
     <MouseEnterContext.Provider value={[isMouseEntered, setIsMouseEntered]}>
       <div
         className={cn(
-          "py-20 flex items-center justify-center",
+          "py-10 sm:py-16 md:py-20 flex items-center justify-center", // Adjusted padding
           containerClassName
         )}
         style={{
@@ -62,7 +63,7 @@ export const CardContainer = ({
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
           className={cn(
-            "flex items-center justify-center relative transition-all duration-200 ease-linear",
+            "flex items-center justify-center relative transition-all duration-200 ease-linear w-full max-w-[320px] sm:max-w-none", // Added max-width for mobile
             className
           )}
           style={{
@@ -86,7 +87,7 @@ export const CardBody = ({
   return (
     <div
       className={cn(
-        "h-96 w-96 [transform-style:preserve-3d]  [&>*]:[transform-style:preserve-3d]",
+        "w-full h-full [transform-style:preserve-3d] [&>*]:[transform-style:preserve-3d]", // Removed fixed dimensions
         className
       )}
     >

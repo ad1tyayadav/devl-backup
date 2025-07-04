@@ -430,7 +430,7 @@ const ServicesCarouselPhone = () => {
 
           {/* Main Timeline Card */}
           <div className="flex-1 flex items-center justify-center mb-8">
-            <div className="relative max-w-5xl w-full">
+            <div className="relative max-w-5xl w-full  rounded">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={`${currentService}-${currentCard}`}
@@ -440,7 +440,7 @@ const ServicesCarouselPhone = () => {
                   transition={{ duration: 0.6 }}
                 >
                   <motion.div
-                    className="relative backdrop-blur-xl border border-white/10 rounded-2xl p-8 md:p-10 shadow-xl overflow-hidden"
+                    className="relative backdrop-blur-xl border border-cyan-200 rounded-2xl p-8 md:p-10 shadow-xl overflow-hidden"
                     style={{
                       background: 'rgba(0, 0, 0, 0.1)',
                       backdropFilter: 'blur(20px)',
@@ -526,7 +526,7 @@ const ServicesCarouselPhone = () => {
                       </motion.p>
 
                       {/* Deliverables Section */}
-                      <motion.div
+                      {/* <motion.div
                         className="backdrop-blur-lg border border-white/10 rounded-xl p-6 max-w-4xl mx-auto"
                         style={{
                           background: 'rgba(255, 255, 255, 0.03)',
@@ -557,7 +557,7 @@ const ServicesCarouselPhone = () => {
                             </motion.div>
                           ))}
                         </div>
-                      </motion.div>
+                      </motion.div> */}
                     </div>
                   </motion.div>
                 </motion.div>

@@ -14,6 +14,7 @@ import ScrollToTop from "./hooks/scrollToTop";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { HeaderProvider } from '@/context/HeaderContext'
+import ProjectsPage from "./pages/Project";
 
 const queryClient = new QueryClient();
 
@@ -23,7 +24,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <HeaderProvider> {/* Wrap entire app with HeaderProvider */}
+        <HeaderProvider>
           <ScrollToTop />
           <Routes>
             <Route
@@ -38,6 +39,7 @@ const App = () => (
             />
             <Route path="/lets-talk" element={<LetsTalk />} />
             <Route path="/investor-deck" element={<InvestorDeck />} />
+            <Route path="/all-projects" element={<ProjectsPage />} />
             <Route path="/client/:name" element={<ClientPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
